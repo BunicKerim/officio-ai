@@ -9,6 +9,15 @@ import os
 
 app = FastAPI(title="Officio AI")
 
+# ================= ROOT / HEALTH CHECK =================
+
+@app.get("/")
+def root():
+    return {
+        "status": "ok",
+        "service": "Officio AI"
+    }
+
 # ========= CORS =========
 app.add_middleware(
     CORSMiddleware,
