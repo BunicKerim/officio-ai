@@ -56,7 +56,7 @@ document.getElementById("summarizeBtn").addEventListener("click", async () => {
     output.textContent = "Zusammenfassung wird erstellt …";
 
     try {
-        const res = await fetch("http://127.0.0.1:8000/summarize", {
+        const res = await fetch("https://officio-ai-lybv.onrender.com/summarize", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ text: input })
@@ -76,14 +76,14 @@ document.getElementById("summarizeBtn").addEventListener("click", async () => {
         const output = document.getElementById("emailOutput");
         output.textContent = "Antwort wird erstellt…";
 
-        const res = await fetch("http://127.0.0.1:8000/email-reply", {
+        const res = await fetch("https://officio-ai-lybv.onrender.com/email-reply", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                original_email: emailOriginal.value,
-                keywords: emailKeywords.value,
-                style: emailStyle.value
-            })
+    original_email: document.getElementById("emailOriginal").value,
+    keywords: document.getElementById("emailKeywords").value,
+    style: document.getElementById("emailStyle").value
+})
         });
 
         const data = await res.json();
