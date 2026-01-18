@@ -6,6 +6,7 @@ from ai_client import call_ai
 from ai_config import ROLE
 
 import os
+import re
 
 app = FastAPI(title="Officio AI")
 
@@ -31,6 +32,7 @@ app.add_middleware(
 
 class SummaryInput(BaseModel):
     text: str
+    focus: str | None = None
 
 class EmailReplyInput(BaseModel):
     original_email: str
@@ -39,7 +41,6 @@ class EmailReplyInput(BaseModel):
 
 # ========= ENDPOINTS =========
 
-import re
 
 @app.post("/summarize")
 def summarize(input: SummaryInput):
