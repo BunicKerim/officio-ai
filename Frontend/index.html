@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Officio AI</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="extensions/extensions.css">
+</head>
+
+<body>
+
+<header class="app-header">
+    <canvas id="heroCanvas"></canvas>
+
+    <div class="header-inner">
+        <div>
+            <h1 class="app-title">OFFICIO <strong>AI</strong></h1>
+            <p class="subtitle">DEIN BESTER FREUND, WENN ES UM VEREINFACHUNG VON ARBEITSPROZESSEN GEHT</p>
+        </div>
+
+        <button id="themeToggle" class="theme-toggle">Dark Mode: OFF</button>
+    </div>
+</header>
+
+<main class="app-main">
+
+    <!-- START -->
+    <section id="startHero">
+        <h2>DU BENÖTIGST HILFE BEI ARBEITSPROZESSEN?</h2>
+        <p>WÄHLE EIN TOOL UND STARTE DIREKT.</p>
+    </section>
+
+    <section id="featureGrid" class="feature-grid">
+        <div class="feature-card" data-tool="tool-summary">
+            <h3>📝 Zusammenfassen</h3>
+            <p>Fasst lange Texte, Bücher, Zitate strukturiert zusammen und hebt die wichtigsten Punkte hervor. </p>
+        </div>
+
+        <div class="feature-card" data-tool="tool-email">
+            <h3>✉️ E-Mail Antwort</h3>
+            <p>Auf Kundenanfragen automatisch professionelle Antworten erstellen, wobei die Art der Antwort angepasst werden kann.</p>
+        </div>
+    </section>
+
+    <!-- SUMMARY -->
+    <section id="tool-summary" class="tool-section">
+        <button class="back-to-start">← Zur Startseite</button>
+        <h2>Text zusammenfassen</h2>
+
+        <textarea id="inputText" placeholder="Text hier einfügen..."></textarea>
+
+        <button id="summarizeBtn">Zusammenfassen</button>
+
+        <div id="summaryLoader" class="loading hidden">
+            <p>Zusammenfassung wird erstellt…</p>
+        </div>
+
+        <div id="output"></div>
+    </section>
+
+    <!-- EMAIL -->
+    <section id="tool-email" class="tool-section">
+        <button class="back-to-start">← Zur Startseite</button>
+        <h2>E-Mail Antwort erstellen</h2>
+
+        <label>Original-E-Mail</label>
+        <textarea id="emailOriginal"></textarea>
+
+        <label>Stichworte</label>
+        <textarea id="emailKeywords"></textarea>
+
+        <label>Stil</label>
+        <select id="emailStyle">
+            <option>Professionell</option>
+            <option>Freundlich</option>
+            <option>Kurz & direkt</option>
+        </select>
+
+        <button id="emailGenerateBtn">Antwort generieren</button>
+
+        <div id="emailOutput"></div>
+    </section>
+
+</main>
+
+<script src="script.js" defer></script>
+<script src="extensions/extensions.js" defer></script>
+</body>
+</html>

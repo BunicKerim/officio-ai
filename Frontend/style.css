@@ -1,0 +1,452 @@
+* {
+    box-sizing: border-box;
+    font-family: Inter, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: #f8fafc;
+    color: #111827;
+}
+
+/* HEADER */
+.app-header {
+    position: relative;
+    height: 320px;
+    overflow: hidden;
+    background: linear-gradient(135deg,#6b4ce6,#9c7af0);
+}
+
+#heroCanvas {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.header-inner {
+    position: relative;
+    z-index: 2;
+    padding: 56px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.app-title {
+    font-size: 44px;
+    color: #ffffff;
+}
+
+.subtitle {
+    opacity: 0.85;
+    color: #ffffff;
+}
+
+/* MAIN */
+.app-main {
+    padding: 40px 24px;
+}
+
+/* START */
+#startHero {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+    gap: 80px;
+    max-width: 900px;
+    margin: 0 auto 80px;
+}
+
+.feature-card {
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 16px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0,0,0,.08);
+}
+
+/* TOOLS */
+.tool-section {
+    display: none;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.tool-section.active {
+    display: block;
+}
+
+textarea {
+    width: 100%;
+    min-height: 120px;
+    margin-bottom: 16px;
+    padding: 12px;
+}
+
+button {
+    padding: 10px 16px;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+
+.back-to-start {
+    margin-bottom: 16px;
+}
+
+/* DARK MODE */
+body.dark {
+    background: #0f172a;
+    color: #e5e7eb;
+}
+
+body.dark .feature-card {
+    background: #1f2937;
+}
+/* ==================================================
+   TOOL VIEW – FULL PAGE (Backup-7 Verhalten)
+================================================== */
+
+/* Startseite ausblenden, wenn Tool aktiv */
+body.tool-active #startHero,
+body.tool-active #featureGrid {
+    display: none;
+}
+
+/* Tool bekommt eigene „Seite“ */
+body.tool-active .tool-section.active {
+    display: block;
+    min-height: calc(100vh - 320px);
+    padding-top: 40px;
+}
+
+/* Startzustand */
+#startHero,
+#featureGrid {
+    display: block;
+}
+/* ==================================================
+   INPUT POLISH – BACKUP 7 SAFE
+================================================== */
+
+textarea,
+select {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 14px 16px;
+    font-size: 14px;
+    line-height: 1.5;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+}
+
+/* Fokus – ruhig, hochwertig */
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: #7f6af2;
+    box-shadow: 0 0 0 3px rgba(127,106,242,0.15);
+}
+
+/* Dark Mode */
+body.dark textarea,
+body.dark select {
+    background: #020617;
+    border-color: #1e293b;
+    color: #e5e7eb;
+}
+
+body.dark textarea:focus,
+body.dark select:focus {
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 3px rgba(96,165,250,0.2);
+}
+/* ==================================================
+   BUTTON POLISH
+================================================== */
+
+button {
+    background: linear-gradient(135deg,#6b4ce6,#9c7af0);
+    color: #ffffff;
+    border: none;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 18px;
+    cursor: pointer;
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        opacity 0.15s ease;
+}
+
+button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+}
+
+button:active {
+    transform: translateY(0);
+    opacity: 0.9;
+}
+
+/* Dark Mode */
+body.dark button {
+    background: linear-gradient(135deg,#2563eb,#60a5fa);
+}
+/* ==================================================
+   TOOL TRANSITIONS
+================================================== */
+
+.tool-section {
+    opacity: 0;
+    transform: translateY(6px);
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+}
+
+.tool-section.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+/* ==================================================
+   OUTPUT / RESULT POLISH
+================================================== */
+
+#output,
+#emailOutput {
+    margin-top: 20px;
+    padding: 18px 20px;
+    border-radius: 14px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    line-height: 1.6;
+    transition: background-color 0.2s ease;
+}
+
+body.dark #output,
+body.dark #emailOutput {
+    background: #ffffff;
+    border-color: #1e293b;
+}
+/* ==================================================
+   HERO BACKGROUND – RESTORE CONTRAST (Backup 7+)
+================================================== */
+
+.app-header {
+    background: linear-gradient(
+        135deg,
+        #5029ff 0%,
+        #3f328e 40%,
+        #4a2bb0 100%
+    );
+}
+/* ==================================================
+   HERO CANVAS VISIBILITY
+================================================== */
+
+#heroCanvas {
+    opacity: 0.85;
+}
+/* ==================================================
+   DARK MODE BUTTON – FORCE BOTTOM RIGHT
+================================================== */
+
+.theme-toggle {
+    position: fixed !important;
+    right: 28px;
+    bottom: 28px;
+    top: auto !important;
+    left: auto !important;
+
+    z-index: 9999;
+}
+/* ==================================================
+   FEATURE CARD – ICON SPACING
+================================================== */
+
+.feature-card h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Abstand zwischen Icon & Text */
+}
+/* ==================================================
+   FEATURE CARD – HOVER EFFECT
+================================================== */
+
+.feature-card {
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background-color 0.25s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 45px rgba(0,0,0,0.18);
+}
+
+/* Dark Mode Feinschliff */
+body.dark .feature-card:hover {
+    box-shadow: 0 20px 45px rgba(0,0,0,0.45);
+}
+/* ==================================================
+   FEATURE ICON – SUBTLE HOVER ACCENT
+================================================== */
+
+.feature-card h3 {
+    transition: color 0.25s ease;
+}
+
+.feature-card:hover h3 {
+    color: #6b4ce6;
+}
+
+body.dark .feature-card:hover h3 {
+    color: #93c5fd;
+}
+/* ==================================================
+   FEATURE CARD – ICON SPACING (EMOJI SAFE)
+================================================== */
+
+.feature-card h3 {
+    position: relative;
+    padding-left: 34px; /* Platz für Icon */
+    line-height: 1.3;
+}
+
+/* Emoji optisch „absetzen“ */
+.feature-card h3::first-letter {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+/* ==================================================
+   FEATURE CARD – SIZE & AIR
+================================================== */
+
+.feature-card {
+    padding: 34px 36px;
+    border-radius: 20px;
+}
+
+.feature-card p {
+    margin-top: 10px;
+    font-size: 15px;
+}
+/* ==================================================
+   FEATURE CARD – ICON SEPARATION (EMOJI SAFE)
+================================================== */
+
+.feature-card h3 {
+    position: relative;
+    padding-left: 44px;      /* PLATZ FÜR ICON */
+    font-size: 18px;
+    line-height: 1.4;
+}
+
+/* Emoji wird links „fixiert“ */
+.feature-card h3::first-letter {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 20px;
+}
+/* ==================================================
+   FEATURE GRID – MORE BREATHING ROOM
+================================================== */
+
+.feature-grid {
+    gap: 36px;
+}
+/* ==================================================
+   SIDE GRADIENTS – VISUAL BALANCE
+================================================== */
+
+.app-main {
+    position: relative;
+}
+
+.app-main::before,
+.app-main::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 280px;
+    pointer-events: none;
+}
+
+.app-main::before {
+    left: 0;
+    background: linear-gradient(
+        to right,
+        rgba(124, 58, 237, 0.06),
+        transparent
+    );
+}
+
+.app-main::after {
+    right: 0;
+    background: linear-gradient(
+        to left,
+        rgba(124, 58, 237, 0.06),
+        transparent
+    );
+}
+/* ==================================================
+   SOFT BACKGROUND SHAPES
+================================================== */
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 30%;
+    left: -200px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(
+        circle,
+        rgba(124,58,237,0.08),
+        transparent 70%
+    );
+    pointer-events: none;
+    z-index: 0;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    bottom: 10%;
+    right: -200px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(
+        circle,
+        rgba(124,58,237,0.06),
+        transparent 70%
+    );
+    pointer-events: none;
+    z-index: 0;
+}
+/* ==================================================
+   CONTENT STAGE
+================================================== */
+
+.feature-grid {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(2px);
+    border-radius: 28px;
+    padding: 48px 40px;
+}

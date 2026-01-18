@@ -1,0 +1,8 @@
+textarea {
+    resize: none;
+    scrollbar-width: none;
+}
+
+textarea::-webkit-scrollbar {
+    width: 0;
+}
