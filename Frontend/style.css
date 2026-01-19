@@ -247,7 +247,7 @@ body.dark #emailOutput {
 .app-header {
     background: linear-gradient(
         135deg,
-        #5029ff 0%,
+        #6246db 0%,
         #3f328e 40%,
         #4a2bb0 100%
     );
@@ -449,4 +449,152 @@ body::after {
     backdrop-filter: blur(2px);
     border-radius: 28px;
     padding: 48px 40px;
+}
+/* =====================================
+   INFO TEXT NUR VISUELL NACH LINKS
+   (beeinflusst KEIN anderes Element)
+===================================== */
+
+.officio-purpose {
+    transform: translateX(-200px);
+}
+
+/* Mobile: wieder normal zentriert */
+@media (max-width: 1100px) {
+    .officio-purpose {
+        transform: none;
+    }
+}
+/* =====================================
+   INFO TEXT = GLEICHES DESIGN WIE TOOLS
+   (KEIN Einfluss auf Layout / JS)
+===================================== */
+
+.officio-purpose .purpose-card {
+    background: #ffffff;
+    padding: 34px 36px;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.08);
+    max-width: 460px;
+}
+
+/* Hover-Effekt wie bei Tool-Karten */
+.officio-purpose .purpose-card {
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background-color 0.25s ease;
+}
+
+.officio-purpose .purpose-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 45px rgba(0,0,0,0.18);
+}
+
+/* Typografie angleichen */
+.officio-purpose h2 {
+    font-size: 18px;
+    line-height: 1.4;
+    margin-bottom: 10px;
+}
+
+.officio-purpose p,
+.officio-purpose li {
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* Dark Mode – identisch zu Tool-Karten */
+body.dark .officio-purpose .purpose-card {
+    background: #1f2937;
+    box-shadow: 0 20px 45px rgba(0,0,0,0.45);
+}
+
+body.dark .officio-purpose h2 {
+    color: #f9fafb;
+}
+
+body.dark .officio-purpose p,
+body.dark .officio-purpose li {
+    color: #d1d5db;
+}
+/* TOOLS WIEDER NÄHER AN DEN STARTBEREICH ZIEHEN */
+#featureGrid {
+    margin-top: -200px;
+}
+
+/* Mobile: kein negativer Abstand */
+@media (max-width: 900px) {
+    #featureGrid {
+        margin-top: 0;
+    }
+}
+/* INFOTEXT HORIZONTAL FEINJUSTIEREN */
+.officio-purpose {
+    transform: translateX(10px); /* vorher war es weiter links */
+}
+
+/* Mobile: wieder neutral */
+@media (max-width: 1100px) {
+    .officio-purpose {
+        transform: none;
+    }
+}
+/* INFOTEXT VERTIKAL NACH UNTEN ZIEHEN */
+.officio-purpose {
+    margin-top: -90px;
+}
+
+/* Mobile: wieder neutral */
+@media (max-width: 900px) {
+    .officio-purpose {
+        margin-top: 0;
+    }
+}
+/* INFO-TEXT NUR AUF DER STARTSEITE ANZEIGEN */
+body.tool-active .officio-purpose {
+    display: none;
+}
+/* ================================
+   OUTPUT / RESULT – DARK MODE FIX
+   (für ALLE Tools, jetzt & später)
+================================ */
+
+/* Gemeinsames Styling für Ergebnisfelder */
+#output,
+#emailOutput,
+.tool-section .result,
+.tool-section .output,
+.tool-section [data-output] {
+    margin-top: 24px;
+    padding: 20px 22px;
+    border-radius: 18px;
+    line-height: 1.6;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* LIGHT MODE */
+body:not(.dark) #output,
+body:not(.dark) #emailOutput,
+body:not(.dark) .tool-section .result,
+body:not(.dark) .tool-section .output,
+body:not(.dark) .tool-section [data-output] {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    color: #111827;
+}
+
+/* DARK MODE – WIE RESTLICHES LAYOUT */
+body.dark #output,
+body.dark #emailOutput,
+body.dark .tool-section .result,
+body.dark .tool-section .output,
+body.dark .tool-section [data-output] {
+    background: linear-gradient(
+        180deg,
+        #020617,
+        #020617
+    );
+    border: 1px solid #1e293b;
+    color: #e5e7eb;
 }

@@ -35,15 +35,41 @@
         <p>WÄHLE EIN TOOL UND STARTE DIREKT.</p>
     </section>
 
+    <!-- 🔹 INFO TEXT (NEU, BEINFLUSST NICHTS ANDERES) -->
+    <section class="officio-purpose">
+        <div class="purpose-card">
+            <h3>Wofür Officio AI entwickelt wurde</h3>
+
+            <p>
+                Officio AI wurde entwickelt, um tägliche Büroarbeit schneller,
+                klarer und effizienter zu machen. Officio AI nutzt fortschrittliche KI-Technologien,
+                um dir bei der Bewältigung wiederkehrender Aufgaben zu helfen und dir wertvolle Zeit zu sparen.
+            </p>
+
+            <ul>
+                <li>📝 Klare Textzusammenfassungen</li>
+                <li>✉️ Professionelle E-Mail-Antworten</li>
+                <li>⚡ Weniger manueller Aufwand</li>
+                <li>🧠 Digitale Büroassistenz</li>
+            </ul>
+
+            <p class="focus">
+                <strong>Fokus:</strong> Zeitersparnis & Klarheit
+            </p>
+        </div>
+    </section>
+    <!-- 🔹 ENDE INFO TEXT -->
+
+    <!-- TOOLS (UNVERÄNDERT, BLEIBEN ZENTRIERT) -->
     <section id="featureGrid" class="feature-grid">
         <div class="feature-card" data-tool="tool-summary">
             <h3>📝 Zusammenfassen</h3>
-            <p>Fasst lange Texte strukturiert zusammen und hebt die wichtigsten Punkte hervor.</p>
+            <p>Fasst lange Texte, Ausschnitte, Bücher, etc. so zusammen, wie du es dir wünschst.</p>
         </div>
 
         <div class="feature-card" data-tool="tool-email">
             <h3>✉️ E-Mail Antwort</h3>
-            <p>Auf Kundenanfragen automatisch professionelle Antworten erstellen.</p>
+            <p>Auf alle Arten von E-Mails automatisch auf deine Bedürfnisse angepasste Antworten erstellen.</p>
         </div>
     </section>
 
@@ -54,7 +80,6 @@
 
         <textarea id="inputText" placeholder="Text hier einfügen..."></textarea>
 
-        <!-- 🔽 NEU: Fokus / Stichwörter -->
         <textarea
             id="summaryFocus"
             placeholder="Stichwörter / Vorgaben (z. B. kurz, Bulletpoints, max. 3 Sätze, Management)"
@@ -82,9 +107,9 @@
 
         <label>Stil</label>
         <select id="emailStyle">
+            <option>Kundenbezogen</option>
+            <option>intern</option>
             <option>Professionell</option>
-            <option>Freundlich</option>
-            <option>Kurz & direkt</option>
         </select>
 
         <button id="emailGenerateBtn">Antwort generieren</button>
