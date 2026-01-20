@@ -31,9 +31,16 @@ document.addEventListener("DOMContentLoaded", () => {
         );
     }
 
+    // ⬅️ MIT RÜCKKEHR-EFFEKT
     function goToStart() {
-        document.body.classList.remove("tool-active");
-        toolSections.forEach(s => s.classList.remove("active"));
+        document.body.classList.add("returning-to-start");
+
+        setTimeout(() => {
+            document.body.classList.remove("tool-active");
+            document.body.classList.remove("returning-to-start");
+
+            toolSections.forEach(s => s.classList.remove("active"));
+        }, 250); // exakt auf CSS-Transition abgestimmt
     }
 
     featureCards.forEach(card =>
@@ -79,18 +86,23 @@ document.addEventListener("DOMContentLoaded", () => {
         const output = document.getElementById("emailOutput");
         output.textContent = "Antwort wird erstellt…";
 
-        const res = await fetch("https://officio-ai-lybv.onrender.com/email-reply", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                original_email: document.getElementById("emailOriginal").value,
-                keywords: document.getElementById("emailKeywords").value,
-                style: document.getElementById("emailStyle").value
-            })
-        });
+        try {
+            const res = await fetch("https://officio-ai-lybv.onrender.com/email-reply", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    original_email: document.getElementById("emailOriginal").value,
+                    keywords: document.getElementById("emailKeywords").value,
+                    style: document.getElementById("emailStyle").value
+                })
+            });
 
-        const data = await res.json();
-        output.textContent = data.result;
+            const data = await res.json();
+            output.textContent = data.result ?? "Keine Antwort erhalten.";
+        } catch (err) {
+            output.textContent = "Fehler bei der Verarbeitung.";
+            console.error(err);
+        }
     });
 
     /* ---------- HERO CANVAS ---------- */
@@ -161,4 +173,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     animate();
+});
+
+/* ---------- DARK MODE DEFAULT ---------- */
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.body.classList.add("dark");
+
+    const toggle = document.getElementById("themeToggle");
+    if (toggle) {
+        toggle.textContent = "Dark Mode: ON";
+    }
 });

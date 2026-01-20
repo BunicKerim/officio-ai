@@ -598,3 +598,150 @@ body.dark .tool-section [data-output] {
     border: 1px solid #1e293b;
     color: #e5e7eb;
 }
+/* ================================
+   EMAIL OUTPUT – COPY & PASTE READY
+================================ */
+
+/* Output-Container */
+#emailOutput {
+    white-space: pre-line;     /* behält Zeilenumbrüche */
+    font-family: Inter, sans-serif;
+    line-height: 1.6;
+}
+/* PRIMARY TOOL HIGHLIGHT */
+.feature-card:first-child {
+    box-shadow: 0 30px 70px rgba(107,76,230,0.45);
+}
+/* FEATURE CARD HOVER GLOW */
+.feature-card:hover {
+    box-shadow:
+        0 25px 60px rgba(107,76,230,0.45),
+        inset 0 0 0 1px rgba(255,255,255,0.15);
+}
+/* HIDE START WHEN TOOL ACTIVE */
+body.tool-active .start-layout {
+    opacity: 0;
+    pointer-events: none;
+}
+.hint-text {
+    text-align: center;
+    font-size: 13px;
+    opacity: 0.6;
+    margin-top: -40px;
+}
+/* CONSISTENT RADIUS */
+.feature-card,
+.purpose-card,
+textarea,
+#output,
+#emailOutput {
+    border-radius: 20px;
+}
+/* DARK MODE DEPTH */
+body.dark {
+    background: radial-gradient(
+        circle at top,
+        #0f172a,
+        #020617
+    );
+}
+body.dark .feature-card:hover {
+    background: linear-gradient(
+        180deg,
+        #0f172a,
+        #020617
+    );
+}
+/* =====================================
+   INFO CARD – PURPLE HOVER TOUCH
+===================================== */
+
+.purpose-card {
+    transition:
+        box-shadow 0.25s ease,
+        transform 0.25s ease,
+        background-color 0.25s ease;
+}
+
+.purpose-card:hover {
+    box-shadow:
+        0 25px 60px rgba(107, 76, 230, 0.35),
+        inset 0 0 0 1px rgba(107, 76, 230, 0.25);
+    transform: translateY(-2px);
+}
+body.dark .purpose-card:hover {
+    box-shadow:
+        0 30px 70px rgba(107, 76, 230, 0.25),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+#startHero {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.hero-subline {
+    font-size: 18px;
+    opacity: 0.85;
+    margin-top: 12px;
+}
+
+.hero-trust {
+    margin-top: 14px;
+    font-size: 13px;
+    opacity: 0.55;
+}
+/* =====================================
+   REMOVE TOOL WRAPPER BACKGROUND
+   (Light + Dark Mode)
+===================================== */
+
+.feature-grid {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+}
+/* =====================================
+   TOOL OPEN TRANSITION
+===================================== */
+
+.start-layout,
+#startHero {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+body.tool-active #startHero,
+body.tool-active .start-layout {
+    opacity: 0;
+    transform: translateY(-8px);
+    pointer-events: none;
+}
+.tool-section.active {
+    animation: toolEnter 0.35s ease both;
+}
+
+@keyframes toolEnter {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+/* =====================================
+   RETURN TO START TRANSITION
+===================================== */
+
+body.returning-to-start .tool-section.active {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+body.returning-to-start #startHero,
+body.returning-to-start .start-layout {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
