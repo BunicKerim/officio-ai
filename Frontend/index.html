@@ -20,100 +20,136 @@
     <div class="header-inner">
         <div>
             <h1 class="app-title">OFFICIO <strong>AI</strong></h1>
-            <p class="subtitle">DEIN BESTER FREUND, WENN ES UM VEREINFACHUNG VON ARBEITSPROZESSEN GEHT
+            <p class="subtitle" data-i18n="header.subtitle">
+                DEIN BESTER FREUND, WENN ES UM VEREINFACHUNG VON ARBEITSPROZESSEN GEHT
             </p>
         </div>
 
-        <button id="themeToggle" class="theme-toggle">Dark Mode: OFF</button>
+        <!-- LANGUAGE SELECTOR + DARK MODE -->
+        <div class="header-actions">
+            <select id="languageSelect" aria-label="Language selector">
+                <option value="de" selected>DE</option>
+                <option value="en">EN</option>
+                <option value="fr">FR</option>
+            </select>
+
+            <button id="themeToggle" class="theme-toggle">
+                Dark Mode: OFF
+            </button>
+        </div>
     </div>
 </header>
 
 <main class="app-main">
 
-    <!-- START -->
+    <!-- START HERO -->
     <section id="startHero">
-        <h2>DU BENÖTIGST HILFE BEI ARBEITSPROZESSEN?</h2>
-        <p>WÄHLE EIN TOOL UND STARTE DIREKT. KEINE ANMELDUNG NOTWENDIG, DIREKT STARTEN!</p>
+        <h2 data-i18n="hero.title">
+            DU BENÖTIGST HILFE BEI ARBEITSPROZESSEN?
+        </h2>
+
+        <p data-i18n="hero.subtitle">
+            WÄHLE EIN TOOL UND STARTE DIREKT. KEINE ANMELDUNG NOTWENDIG, DIREKT STARTEN!
+        </p>
     </section>
 
-    <!-- 🔹 INFO TEXT (NEU, BEINFLUSST NICHTS ANDERES) -->
+    <!-- INFO TEXT -->
     <section class="officio-purpose">
         <div class="purpose-card">
-            <h3>Wofür Officio AI entwickelt wurde</h3>
+            <h3 data-i18n="info.title">
+                Wofür Officio AI entwickelt wurde
+            </h3>
 
-            <p>
+            <p data-i18n="info.text">
                 Officio AI wurde entwickelt, um tägliche Büroarbeit schneller,
                 klarer und effizienter zu machen. Officio AI nutzt fortschrittliche KI-Technologien,
                 um dir bei der Bewältigung wiederkehrender Aufgaben zu helfen und dir wertvolle Zeit zu sparen.
             </p>
 
             <ul>
-                <li>📝 Klare Textzusammenfassungen</li>
-                <li>✉️ Professionelle E-Mail-Antworten</li>
-                <li>⚡ Weniger manueller Aufwand</li>
-                <li>🧠 Digitale Büroassistenz</li>
+                <li data-i18n="info.list.summary">📝 Klare Textzusammenfassungen</li>
+                <li data-i18n="info.list.email">✉️ Professionelle E-Mail-Antworten</li>
+                <li data-i18n="info.list.effort">⚡ Weniger manueller Aufwand</li>
+                <li data-i18n="info.list.assistant">🧠 Digitale Büroassistenz</li>
             </ul>
 
             <p class="focus">
-                <strong>Fokus:</strong> Zeitersparnis & Klarheit
+                <strong data-i18n="info.focus">
+                    Fokus: Zeitersparnis & Klarheit
+                </strong>
             </p>
         </div>
     </section>
-    <!-- 🔹 ENDE INFO TEXT -->
 
-    <!-- TOOLS (UNVERÄNDERT, BLEIBEN ZENTRIERT) -->
+    <!-- TOOLS -->
     <section id="featureGrid" class="feature-grid">
         <div class="feature-card" data-tool="tool-summary">
-            <h3>📝 Zusammenfassen</h3>
-            <p>Fasst lange Texte, Ausschnitte, Bücher, etc. so zusammen, wie du es dir wünschst.</p>
+            <h3 data-i18n="tool.summary">📝 Zusammenfassen</h3>
+            <p data-i18n="tool.summary.desc">
+                Fasst lange Texte, Ausschnitte, Bücher, etc. so zusammen, wie du es dir wünschst.
+            </p>
         </div>
 
         <div class="feature-card" data-tool="tool-email">
-            <h3>✉️ E-Mail Antwort</h3>
-            <p>Auf alle Arten von E-Mails automatisch auf deine Bedürfnisse angepasste Antworten erstellen.</p>
+            <h3 data-i18n="tool.email">✉️ E-Mail Antwort</h3>
+            <p data-i18n="tool.email.desc">
+                Auf alle Arten von E-Mails automatisch auf deine Bedürfnisse angepasste Antworten erstellen.
+            </p>
         </div>
     </section>
 
-    <!-- SUMMARY -->
+    <!-- SUMMARY TOOL -->
     <section id="tool-summary" class="tool-section">
-        <button class="back-to-start">← Zur Startseite</button>
-        <h2>Text zusammenfassen</h2>
+        <button class="back-to-start" data-i18n="nav.back">
+            ← Zur Startseite
+        </button>
 
-        <textarea id="inputText" placeholder="Text hier einfügen..."></textarea>
+        <h2 data-i18n="summary.title">Text zusammenfassen</h2>
 
-        <textarea
-            id="summaryFocus"
-            placeholder="Stichwörter / Vorgaben (z. B. kurz, Bulletpoints, max. 3 Sätze, Management)"
-        ></textarea>
+        <textarea id="inputText" data-i18n-placeholder="summary.input"
+            placeholder="Text hier einfügen..."></textarea>
 
-        <button id="summarizeBtn">Zusammenfassen</button>
+        <textarea id="summaryFocus" data-i18n-placeholder="summary.focus"
+            placeholder="Stichwörter / Vorgaben (z. B. kurz, Bulletpoints, max. 3 Sätze, Management)">
+        </textarea>
+
+        <button id="summarizeBtn" data-i18n="summary.button">
+            Zusammenfassen
+        </button>
 
         <div id="summaryLoader" class="loading hidden">
-            <p>Zusammenfassung wird erstellt…</p>
+            <p data-i18n="summary.loading">
+                Zusammenfassung wird erstellt…
+            </p>
         </div>
 
         <div id="output"></div>
     </section>
 
-    <!-- EMAIL -->
+    <!-- EMAIL TOOL -->
     <section id="tool-email" class="tool-section">
-        <button class="back-to-start">← Zur Startseite</button>
-        <h2>E-Mail Antwort erstellen</h2>
+        <button class="back-to-start" data-i18n="nav.back">
+            ← Zur Startseite
+        </button>
 
-        <label>Original-E-Mail</label>
+        <h2 data-i18n="email.title">E-Mail Antwort erstellen</h2>
+
+        <label data-i18n="email.original">Original-E-Mail</label>
         <textarea id="emailOriginal"></textarea>
 
-        <label>Stichworte</label>
+        <label data-i18n="email.keywords">Stichworte</label>
         <textarea id="emailKeywords"></textarea>
 
-        <label>Stil</label>
+        <label data-i18n="email.style">Stil</label>
         <select id="emailStyle">
-            <option>Kundenbezogen</option>
-            <option>intern</option>
-            <option>Professionell</option>
+            <option data-i18n="email.style.customer">Kundenbezogen</option>
+            <option data-i18n="email.style.internal">Intern</option>
+            <option data-i18n="email.style.professional">Professionell</option>
         </select>
 
-        <button id="emailGenerateBtn">Antwort generieren</button>
+        <button id="emailGenerateBtn" data-i18n="email.button">
+            Antwort generieren
+        </button>
 
         <div id="emailOutput"></div>
     </section>

@@ -745,3 +745,529 @@ body.returning-to-start .start-layout {
     transform: translateY(0);
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
+/* =====================================
+   LANGUAGE SWITCHER (TOP RIGHT)
+===================================== */
+
+.language-switcher {
+    position: fixed;
+    top: 140px;          /* FEINJUSTIERBAR */
+    right: 60px;         /* genau dein markierter Bereich */
+    display: flex;
+    gap: 8px;
+    z-index: 999;
+}
+
+.lang-btn {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: #e5e7eb;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.lang-btn:hover {
+    background: rgba(124,58,237,0.35);
+    border-color: rgba(124,58,237,0.6);
+}
+
+.lang-btn.active {
+    background: linear-gradient(135deg,#6b4ce6,#9c7af0);
+    border-color: transparent;
+    color: #fff;
+}
+
+/* Light Mode sauber */
+body:not(.dark) .lang-btn {
+    color: #111827;
+    background: rgba(0,0,0,0.04);
+    border-color: rgba(0,0,0,0.08);
+}
+/* LANGUAGE SELECTOR – PREMIUM STYLE */
+#languageSelect {
+    appearance: none;
+    -webkit-appearance: none;
+
+    padding: 10px 18px 10px 16px;
+    border-radius: 999px;
+    border: none;
+
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+
+    background: linear-gradient(135deg,#2563eb,#60a5fa);
+    color: #ffffff;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 6px 14px rgba(37,99,235,0.35),
+        inset 0 0 0 1px rgba(255,255,255,0.15);
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        filter 0.15s ease;
+}
+
+/* Pfeil optisch sauber */
+#languageSelect {
+    background-image:
+        linear-gradient(135deg,#2563eb,#60a5fa),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='white' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center right 14px, center right 14px;
+    padding-right: 34px;
+}
+
+/* Hover – lebendig, nicht aggressiv */
+#languageSelect:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.05);
+    box-shadow:
+        0 10px 24px rgba(37,99,235,0.45);
+}
+
+/* Fokus – hochwertiger Glow */
+#languageSelect:focus {
+    outline: none;
+    box-shadow:
+        0 0 0 3px rgba(96,165,250,0.45),
+        0 12px 28px rgba(37,99,235,0.5);
+}
+/* LANGUAGE DROPDOWN – DARK OPTIONS FIX */
+#languageSelect option {
+    background-color: #0f172a;   /* dark slate */
+    color: #e5e7eb;              /* helles Grau */
+}
+
+/* Hover / Selected (soweit Browser es zulässt) */
+#languageSelect option:checked {
+    background-color: #2563eb;
+    color: #ffffff;
+}
+/* LANGUAGE SELECT – FULL BLUE FIX */
+#languageSelect {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    background: linear-gradient(135deg, #2563eb, #60a5fa);
+    color: #ffffff;
+
+    padding: 10px 42px 10px 16px;
+    border-radius: 999px;
+    border: none;
+
+    font-weight: 600;
+    cursor: pointer;
+
+    /* eigener Pfeil */
+    background-image:
+        linear-gradient(135deg, #2563eb, #60a5fa),
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white'><path d='M4 6l4 4 4-4'/></svg>");
+    background-repeat: no-repeat;
+    background-position:
+        center,
+        right 14px center;
+    background-size:
+        cover,
+        14px;
+}
+/* ==================================================
+   TOOL CARDS – PERMANENTER LILA GLOW (ALL MODES)
+================================================== */
+
+/* Tool Cards – immer Glow */
+.feature-card {
+    background: #1f2937; /* neutral, funktioniert in beiden Modi */
+    box-shadow:
+        0 0 0 1px rgba(139, 92, 246, 0.35),
+        0 22px 50px rgba(139, 92, 246, 0.45);
+    transition: none;
+}
+
+/* Hover macht NICHTS zusätzlich */
+.feature-card:hover {
+    transform: none;
+    box-shadow:
+        0 0 0 1px rgba(139, 92, 246, 0.35),
+        0 22px 50px rgba(139, 92, 246, 0.45);
+}
+
+/* Pseudo-Elemente komplett aus */
+.feature-card::before,
+.feature-card::after {
+    display: none !important;
+}
+
+/* Tool Sections selbst: kein extra Glow */
+.tool-section,
+.tool-section.active {
+    box-shadow: none !important;
+    background-image: none !important;
+}
+
+/* Light Mode absichern */
+body:not(.dark) .feature-card {
+    background: #ffffff;
+    box-shadow:
+        0 0 0 1px rgba(139, 92, 246, 0.25),
+        0 20px 45px rgba(139, 92, 246, 0.35);
+}
+
+/* Dark Mode absichern */
+body.dark .feature-card {
+    background: #1f2937;
+    box-shadow:
+        0 0 0 1px rgba(139, 92, 246, 0.45),
+        0 24px 55px rgba(139, 92, 246, 0.55);
+}
+/* ==================================================
+   TOOL CARDS – HOVER GLOW ONLY (LIKE INFO CARD)
+================================================== */
+
+/* 1️⃣ Default: KEIN Glow */
+.feature-card {
+    background: #1f2937; /* Dark neutral */
+    box-shadow: 0 12px 28px rgba(0,0,0,0.35);
+    transition:
+        box-shadow 0.25s ease,
+        transform 0.25s ease;
+}
+
+/* Light Mode Default */
+body:not(.dark) .feature-card {
+    background: #ffffff;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+}
+
+/* 2️⃣ Hover: Glow AKTIV */
+.feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow:
+        0 0 0 1px rgba(139,92,246,0.35),
+        0 18px 45px rgba(139,92,246,0.45);
+}
+
+/* 3️⃣ Hover Dark Mode (etwas stärker, aber gleiches Prinzip) */
+body.dark .feature-card:hover {
+    box-shadow:
+        0 0 0 1px rgba(139,92,246,0.45),
+        0 22px 55px rgba(139,92,246,0.55);
+}
+
+/* 4️⃣ ALLE Pseudo-Glow-Layer endgültig deaktivieren */
+.feature-card::before,
+.feature-card::after,
+.tool-section::before,
+.tool-section::after {
+    display: none !important;
+}
+
+/* 5️⃣ Tool-Wrapper selbst NIE Glow */
+.tool-section,
+.tool-section.active {
+    box-shadow: none !important;
+    background-image: none !important;
+}
+/* ==================================================
+   UNIFIED HOVER GLOW – INFO + TOOLS
+   (DEFAULT = DISKRET, GLOW NUR BEI HOVER)
+================================================== */
+
+/* 🔹 Reset: KEIN Glow im Normalzustand */
+.feature-card,
+.purpose-card {
+    border: 1px solid transparent !important;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.25) !important;
+    transition:
+        box-shadow 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s ease;
+}
+
+/* 🔹 Light Mode Grundruhe */
+body:not(.dark) .feature-card,
+body:not(.dark) .purpose-card {
+    box-shadow: 0 10px 24px rgba(0,0,0,0.12) !important;
+}
+
+/* 🔹 Hover = LILA GLOW (beide gleich!) */
+.feature-card:hover,
+.purpose-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(139, 92, 246, 0.45);
+    box-shadow:
+        0 0 0 1px rgba(139, 92, 246, 0.35),
+        0 22px 55px rgba(139, 92, 246, 0.45) !important;
+}
+
+/* 🔹 Dark Mode Hover – minimal stärker */
+body.dark .feature-card:hover,
+body.dark .purpose-card:hover {
+    box-shadow:
+        0 0 0 1px rgba(167, 139, 250, 0.45),
+        0 26px 65px rgba(167, 139, 250, 0.55) !important;
+}
+
+/* 🔹 Sicherheitsnetz: alle alten Glow-Layer aus */
+.feature-card::before,
+.feature-card::after,
+.purpose-card::before,
+.purpose-card::after {
+    display: none !important;
+}
+/* ==================================================
+   HOVER GLOW – LIGHT MODE (Tools + Info Card)
+   Verhalten IDENTISCH zu Dark Mode
+================================================== */
+
+/* ---------- DEFAULT (Light Mode, KEIN Glow) ---------- */
+body:not(.dark) .feature-card,
+body:not(.dark) .purpose-card {
+    background: #ffffff;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+    transition:
+        box-shadow 0.25s ease,
+        transform 0.25s ease;
+}
+
+/* ---------- HOVER (Light Mode, LILA GLOW) ---------- */
+body:not(.dark) .feature-card:hover,
+body:not(.dark) .purpose-card:hover {
+    transform: translateY(-4px);
+    box-shadow:
+        0 0 0 1px rgba(139, 92, 246, 0.35),
+        0 18px 45px rgba(139, 92, 246, 0.35);
+}
+
+/* ---------- ABSICHERUNG: KEIN GHOST-GLOW ---------- */
+body:not(.dark) .feature-card::before,
+body:not(.dark) .feature-card::after,
+body:not(.dark) .purpose-card::before,
+body:not(.dark) .purpose-card::after {
+    display: none !important;
+}
+/* =====================================
+   LANGUAGE BUTTON = DARK MODE BUTTON STYLE (LIGHT MODE)
+===================================== */
+
+/* Light Mode: Language Button wie Dark Mode Button */
+body:not(.dark) #languageSelect {
+    background: linear-gradient(135deg, #6b4ce6, #9c7af0) !important;
+    color: #ffffff !important;
+
+    border: none !important;
+    border-radius: 999px;
+
+    box-shadow:
+        0 10px 25px rgba(107, 76, 230, 0.45),
+        inset 0 0 0 1px rgba(255,255,255,0.18);
+
+    font-weight: 600;
+}
+
+/* Hover – exakt gleiches Verhalten */
+body:not(.dark) #languageSelect:hover {
+    transform: translateY(-1px);
+    box-shadow:
+        0 14px 32px rgba(107, 76, 230, 0.6),
+        inset 0 0 0 1px rgba(255,255,255,0.22);
+}
+
+/* Fokus */
+body:not(.dark) #languageSelect:focus {
+    outline: none;
+    box-shadow:
+        0 0 0 3px rgba(124, 58, 237, 0.45),
+        0 14px 34px rgba(107, 76, 230, 0.6);
+}
+
+/* Dropdown-Optionen (kein Weiß mehr) */
+body:not(.dark) #languageSelect option {
+    background-color: #6246db;
+    color: #ffffff;
+}
+#languageSelect {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+    line-height: 1;
+}
+#languageSelect {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+    line-height: 1;
+}
+/* ==================================================
+   RESPONSIVE SAFETY PATCH
+   (Desktop → Tablet → Mobile → Tool View)
+================================================== */
+
+/* ------------------------------
+   TABLET & SMALL DESKTOP
+   (≤ 1100px)
+------------------------------ */
+@media (max-width: 1100px) {
+
+    /* Header kompakter */
+    .header-inner {
+        padding: 36px 32px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    /* Start-Headline sauber umbrechen */
+    #startHero h2 {
+        font-size: 26px;
+        line-height: 1.3;
+    }
+
+    /* Info + Tools untereinander */
+    .officio-purpose {
+        transform: none !important;
+        margin-top: 0 !important;
+        margin-bottom: 40px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .officio-purpose .purpose-card {
+        max-width: 100%;
+    }
+
+    /* Feature Grid: enger & zentriert */
+    .feature-grid {
+        gap: 28px;
+        padding: 0;
+    }
+}
+
+/* ------------------------------
+   MOBILE
+   (≤ 768px)
+------------------------------ */
+@media (max-width: 768px) {
+
+    /* Header */
+    .app-header {
+        height: auto;
+        padding-bottom: 40px;
+    }
+
+    .app-title {
+        font-size: 32px;
+    }
+
+    .subtitle {
+        font-size: 14px;
+        line-height: 1.4;
+    }
+
+    /* Language Button bleibt sichtbar */
+    #languageSelect {
+        position: static;
+        margin-top: 12px;
+        align-self: flex-start;
+    }
+
+    /* Startbereich */
+    #startHero {
+        margin-bottom: 32px;
+        padding: 0 10px;
+    }
+
+    #startHero h2 {
+        font-size: 22px;
+    }
+
+    /* Feature Cards: volle Breite */
+    .feature-card {
+        padding: 26px 24px;
+    }
+
+    /* Tool View */
+    body.tool-active .tool-section.active {
+        padding-top: 24px;
+    }
+
+    textarea,
+    select {
+        font-size: 15px;
+    }
+}
+
+/* ------------------------------
+   VERY SMALL / PHONE
+   (≤ 480px)
+------------------------------ */
+@media (max-width: 480px) {
+
+    .header-inner {
+        padding: 28px 20px;
+    }
+
+    .app-title {
+        font-size: 28px;
+    }
+
+    #startHero h2 {
+        font-size: 20px;
+    }
+
+    .feature-card h3 {
+        font-size: 16px;
+    }
+
+    .feature-card p {
+        font-size: 14px;
+    }
+
+    /* Dark Mode Button nicht überdecken */
+    .theme-toggle {
+        right: 18px;
+        bottom: 18px;
+        font-size: 12px;
+        padding: 8px 14px;
+    }
+}
+
+/* ------------------------------
+   TOOL VIEW – MOBILE SAFE
+------------------------------ */
+@media (max-width: 768px) {
+
+    body.tool-active .tool-section {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .back-to-start {
+        margin-bottom: 12px;
+    }
+}
+/* ===============================
+   HARD RESET – NEGATIVE MARGINS
+   (verhindert Überlappung)
+=============================== */
+
+@media (max-width: 1200px) {
+    #featureGrid {
+        margin-top: 0 !important;
+    }
+
+    .officio-purpose {
+        margin-top: 0 !important;
+    }
+}
