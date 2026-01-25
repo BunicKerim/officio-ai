@@ -1839,12 +1839,109 @@ body.tool-active #tool-summary .summary-dropzone {
     color: transparent !important;
     caret-color: transparent !important;
 }
-/* 🔥 REMOVE "undefined" TEXT IN DROPZONE */
+/* ===============================
+   OFFICIO – DROPZONE DARK TUNING
+   (reduziert hellen Glow)
+=============================== */
+
 .summary-dropzone {
-    font-size: 0;
+    background: radial-gradient(
+        120% 120% at 50% 20%,
+        rgba(255, 255, 255, 0.10) 0%,
+        rgba(255, 255, 255, 0.04) 35%,
+        rgba(10, 14, 30, 0.85) 70%,
+        rgba(5, 8, 20, 0.95) 100%
+    );
+
+    border: 1px dashed rgba(140, 160, 255, 0.35);
+    border-radius: 22px;
+    backdrop-filter: blur(8px);
 }
 
-/* Inhalt wieder korrekt sichtbar machen */
-.summary-dropzone::after {
-    font-size: 15px;
+/* Optional: Dark Mode Feintuning */
+body.dark .summary-dropzone {
+    background: radial-gradient(
+        120% 120% at 50% 20%,
+        rgba(255,255,255,0.08),
+        rgba(255,255,255,0.03),
+        rgba(8,12,30,0.90)
+    );
+}
+/* ===============================
+   OFFICIO – DARK MODE ONLY
+   Light Mode deaktiviert
+=============================== */
+
+/* Sicherheit: Dark immer erzwingen */
+body {
+    background-color: #050816;
+    color: #e8ecff;
+}
+
+/* Light-Mode-Regeln neutralisieren */
+body:not(.dark) {
+    background-color: #050816 !important;
+    color: #e8ecff !important;
+}
+
+/* Theme Toggle deaktiviert */
+.theme-toggle.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+/* ===============================
+   OFFICIO – HIDE THEME TOGGLE
+   Dark Mode only
+=============================== */
+
+#themeToggle {
+    display: none !important;
+}
+/* ===============================
+   TEXT SUMMARY OUTPUT – FIX
+=============================== */
+
+#textSummaryOutput {
+    margin-top: 28px;
+    padding: 22px 24px;
+
+    background: linear-gradient(
+        180deg,
+        rgba(255,255,255,0.06),
+        rgba(255,255,255,0.02)
+    );
+
+    border: 1px solid rgba(140,160,255,0.35);
+    border-radius: 18px;
+
+    color: #e9edff;
+    font-size: 15.5px;
+    line-height: 1.6;
+
+    white-space: pre-wrap;
+    word-break: break-word;
+
+    min-height: 120px;
+    display: none; /* wichtig */
+}
+
+/* nur anzeigen, wenn Inhalt da ist */
+#textSummaryOutput:not(:empty) {
+    display: block;
+}
+#textSummaryOutput {
+    display: block !important;
+    margin-top: 24px;
+    padding: 24px;
+    min-height: 120px;
+
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(140,160,255,0.35);
+    border-radius: 16px;
+
+    color: #e9edff;
+    font-size: 15.5px;
+    line-height: 1.6;
+    white-space: pre-wrap;
 }

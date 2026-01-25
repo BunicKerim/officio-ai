@@ -1474,3 +1474,50 @@ document.getElementById("summarizeBtn").addEventListener("click", async () => {
         output.textContent = "❌ Fehler bei der Anfrage.";
     }
 });
+/* ===============================
+   FORCE DARK MODE (OFFICIO)
+   Light Mode deaktiviert
+=============================== */
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.body.classList.add("dark");
+
+    // Theme Toggle deaktivieren
+    const themeToggle = document.getElementById("themeToggle");
+    if (themeToggle) {
+        themeToggle.disabled = true;
+        themeToggle.classList.add("disabled");
+        themeToggle.textContent = "Dark Mode";
+    }
+});
+/* ===============================
+   TEXT SUMMARY – OUTPUT FIX
+=============================== */
+
+document.getElementById("textSummaryBtn")?.addEventListener("click", async () => {
+    const input = document.getElementById("textSummaryInput").value.trim();
+    const focus = document.getElementById("textSummaryFocus").value.trim();
+    const output = document.getElementById("textSummaryOutput");
+
+    if (!input) {
+        output.textContent = "❌ Bitte Text eingeben.";
+        return;
+    }
+
+    output.textContent = "⏳ Zusammenfassung wird erstellt …";
+
+    try {
+        const res = await fetch("https://officio-ai-lybv.onrender.com/summarize", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ text: input, focus })
+        });
+
+        const data = await res.json();
+        output.textContent = data.result || "❌ Keine Antwort erhalten.";
+
+    } catch (err) {
+        console.error(err);
+        output.textContent = "❌ Fehler bei der Verarbeitung.";
+    }
+});
