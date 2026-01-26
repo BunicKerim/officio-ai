@@ -1521,3 +1521,259 @@ document.getElementById("textSummaryBtn")?.addEventListener("click", async () =>
         output.textContent = "❌ Fehler bei der Verarbeitung.";
     }
 });
+/* === OFFICIO | TEXT SUMMARY I18N – APPEND START === */
+(function () {
+  const TEXT_SUMMARY_I18N = {
+    de: {
+      back: "← Zur Startseite",
+      title: "Texte zusammenfassen",
+      input: "Text hier einfügen…",
+      focus: "Stichwörter / Vorgaben (optional)",
+      button: "Zusammenfassen"
+    },
+    en: {
+      back: "← Back to start",
+      title: "Summarize text",
+      input: "Paste your text here…",
+      focus: "Keywords / instructions (optional)",
+      button: "Summarize"
+    },
+    fr: {
+      back: "← Retour à l’accueil",
+      title: "Résumer un texte",
+      input: "Collez votre texte ici…",
+      focus: "Mots-clés / instructions (facultatif)",
+      button: "Résumer"
+    }
+  };
+
+  function applyTextSummaryLang(lang) {
+    const t = TEXT_SUMMARY_I18N[lang];
+    if (!t) return;
+
+    const section = document.getElementById("tool-summary-text");
+    if (!section) return;
+
+    section.querySelector('[data-i18n-key="back"]').textContent = t.back;
+    section.querySelector('[data-i18n-key="title"]').textContent = t.title;
+    section.querySelector('[data-i18n-key="button"]').textContent = t.button;
+
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const key = el.getAttribute("data-i18n-placeholder");
+      if (t[key]) el.placeholder = t[key];
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const langSelect = document.getElementById("languageSelect");
+    if (!langSelect) return;
+
+    applyTextSummaryLang(langSelect.value);
+
+    langSelect.addEventListener("change", e => {
+      applyTextSummaryLang(e.target.value);
+    });
+  });
+})();
+/* === OFFICIO | TEXT SUMMARY I18N – APPEND END === */
+/* === OFFICIO | APPEND TEXT SUMMARY (TEXT ONLY) TRANSLATIONS === */
+
+// Deutsch
+translations.de["text.summary.title"] = "Texte zusammenfassen";
+translations.de["text.summary.input"] = "Text hier einfügen…";
+translations.de["text.summary.focus"] = "Stichwörter / Vorgaben (optional)";
+translations.de["text.summary.button"] = "Zusammenfassen";
+
+// Englisch
+translations.en["text.summary.title"] = "Summarize text";
+translations.en["text.summary.input"] = "Paste your text here…";
+translations.en["text.summary.focus"] = "Keywords / instructions (optional)";
+translations.en["text.summary.button"] = "Summarize";
+
+// Französisch
+translations.fr["text.summary.title"] = "Résumer un texte";
+translations.fr["text.summary.input"] = "Collez votre texte ici…";
+translations.fr["text.summary.focus"] = "Mots-clés / instructions (facultatif)";
+translations.fr["text.summary.button"] = "Résumer";
+
+/* === OFFICIO | APPEND TEXT SUMMARY TRANSLATIONS END === */
+/* === OFFICIO | FORCE I18N REAPPLY – APPEND === */
+document.addEventListener("DOMContentLoaded", () => {
+  const langSelect = document.getElementById("languageSelect");
+  if (!langSelect) return;
+
+  // erzwingt Neuübersetzung
+  function reapplyI18n(lang) {
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const key = el.getAttribute("data-i18n");
+      if (translations[lang] && translations[lang][key]) {
+        el.textContent = translations[lang][key];
+      }
+    });
+
+    document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+      const key = el.getAttribute("data-i18n-placeholder");
+      if (translations[lang] && translations[lang][key]) {
+        el.placeholder = translations[lang][key];
+      }
+    });
+  }
+
+  // initial
+  reapplyI18n(langSelect.value);
+
+  // on change
+  langSelect.addEventListener("change", e => {
+    reapplyI18n(e.target.value);
+  });
+});
+/* === OFFICIO | FORCE I18N REAPPLY – END === */
+/* =====================================================
+   === OFFICIO | FINAL I18N APPLY (DO NOT MOVE) ===
+   ===================================================== */
+window.addEventListener("load", () => {
+  const select = document.getElementById("languageSelect");
+  if (!select) return;
+
+  const lang = select.value;
+
+  // Text nodes
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+    if (translations[lang] && translations[lang][key]) {
+      el.textContent = translations[lang][key];
+    }
+  });
+
+  // Placeholders
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+    const key = el.getAttribute("data-i18n-placeholder");
+    if (translations[lang] && translations[lang][key]) {
+      el.placeholder = translations[lang][key];
+    }
+  });
+
+  // On language change
+  select.addEventListener("change", e => {
+    const l = e.target.value;
+
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const key = el.getAttribute("data-i18n");
+      if (translations[l] && translations[l][key]) {
+        el.textContent = translations[l][key];
+      }
+    });
+
+    document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+      const key = el.getAttribute("data-i18n-placeholder");
+      if (translations[l] && translations[l][key]) {
+        el.placeholder = translations[l][key];
+      }
+    });
+  });
+});
+/* ================== END FINAL I18N ================== */
+/* === OFFICIO | TEXT SUMMARY TOOL CARD I18N – APPEND === */
+
+translations.de["tool.text.summary.title"] = "📝 Texte zusammenfassen";
+translations.de["tool.text.summary.desc"] =
+  "Fasse Texte nach deinen Wünschen zusammen.";
+
+translations.en["tool.text.summary.title"] = "📝 Summarize text";
+translations.en["tool.text.summary.desc"] =
+  "Summarize texts however you want.";
+
+translations.fr["tool.text.summary.title"] = "📝 Résumer un texte";
+translations.fr["tool.text.summary.desc"] =
+  "Résumé de texte comme tu veux.";
+
+/* === END TEXT SUMMARY TOOL CARD I18N === */
+/* =====================================================
+   === OFFICIO | FEATURE CARD TITLE NORMALIZATION ===
+   ===================================================== */
+(function () {
+  function normalizeFeatureCards(lang) {
+    const map = {
+      de: {
+        text: "Texte zusammenfassen",
+        file: "Dateien, PDF, Dokumente, Bücher etc. zusammenfassen",
+        email: "E-Mail Antwort"
+      },
+      en: {
+        text: "Summarize text",
+        file: "Summarize files, documents, PDFs, books, etc.",
+        email: "Email reply"
+      },
+      fr: {
+        text: "Résumer un texte",
+        file: "Résumer des fichiers, documents, PDF, livres, etc.",
+        email: "Réponse e-mail"
+      }
+    };
+
+    const labels = map[lang] || map.de;
+
+    const textCard = document.querySelector(
+      '.feature-card[data-tool="tool-summary-text"] h3'
+    );
+    const fileCard = document.querySelector(
+      '.feature-card[data-tool="tool-summary"] h3'
+    );
+    const emailCard = document.querySelector(
+      '.feature-card[data-tool="tool-email"] h3'
+    );
+
+    if (textCard) textCard.textContent = "📝 " + labels.text;
+    if (fileCard) fileCard.textContent = "📄 " + labels.file;
+    if (emailCard) emailCard.textContent = "✉️ " + labels.email;
+  }
+
+  window.addEventListener("load", () => {
+    const langSelect = document.getElementById("languageSelect");
+    if (!langSelect) return;
+
+    // initial
+    normalizeFeatureCards(langSelect.value);
+
+    // on language change
+    langSelect.addEventListener("change", e => {
+      normalizeFeatureCards(e.target.value);
+    });
+  });
+})();
+ /* ================= END FEATURE CARD NORMALIZATION ================= */
+/* =====================================================
+   OFFICIO | LANGUAGE SELECT LABEL NORMALIZATION
+   ===================================================== */
+(function () {
+  const labelMap = {
+    de: "Sprache",
+    en: "Language",
+    fr: "Langue"
+  };
+
+  function updateLanguageLabel(lang) {
+    const select = document.getElementById("languageSelect");
+    if (!select) return;
+
+    Array.from(select.options).forEach(opt => {
+      const code = opt.value.toUpperCase();
+      const label = labelMap[lang] || "Language";
+      opt.textContent = `${label}: ${code}`;
+    });
+  }
+
+  window.addEventListener("load", () => {
+    const select = document.getElementById("languageSelect");
+    if (!select) return;
+
+    // initial
+    updateLanguageLabel(select.value);
+
+    // on change
+    select.addEventListener("change", e => {
+      updateLanguageLabel(e.target.value);
+    });
+  });
+})();
+ /* ================= END LANGUAGE LABEL ================= */

@@ -79,10 +79,12 @@
     <section id="featureGrid" class="feature-grid">
 
         <!-- 🔹 NEU: TEXTE ZUSAMMENFASSEN -->
-        <div class="feature-card" data-tool="tool-summary-text">
-            <h3>📝 Texte zusammenfassen</h3>
-            <p>Reine Textzusammenfassung ohne Dateien.</p>
-        </div>
+       <div class="feature-card" data-tool="tool-summary-text">
+    <h3 data-i18n="tool.text.summary.title">📝 Texte zusammenfassen</h3>
+    <p data-i18n="tool.text.summary.desc">
+        Reine Textzusammenfassung ohne Dateien.
+    </p>
+</div>
 
         <!-- 🔹 BESTEHEND: DATEIEN -->
         <div class="feature-card" data-tool="tool-summary">
@@ -97,24 +99,28 @@
         </div>
     </section>
 
-    <!-- 🔹 NEUES TOOL: TEXTE ZUSAMMENFASSEN -->
+    <!-- 🔹 NEUES TOOL: TEXTE ZUSAMMENFASSEN (TEXT ONLY, i18n KORREKT) -->
     <section id="tool-summary-text" class="tool-section">
-        <button class="back-to-start">← Zur Startseite</button>
+        <button class="back-to-start" data-i18n="nav.back">← Zur Startseite</button>
 
-        <h2>Texte zusammenfassen</h2>
+        <h2 data-i18n="text.summary.title">Texte zusammenfassen</h2>
 
         <textarea
             id="textSummaryInput"
+            data-i18n-placeholder="text.summary.input"
             placeholder="Text hier einfügen…"
             style="min-height:160px"
         ></textarea>
 
         <textarea
             id="textSummaryFocus"
+            data-i18n-placeholder="text.summary.focus"
             placeholder="Stichwörter / Vorgaben (optional)"
         ></textarea>
 
-        <button id="textSummaryBtn">Zusammenfassen</button>
+        <button id="textSummaryBtn" data-i18n="text.summary.button">
+            Zusammenfassen
+        </button>
 
         <div id="textSummaryOutput"></div>
     </section>
@@ -170,7 +176,7 @@
                     placeholder="Original-E-Mail hier einfügen oder Datei hier hineinziehen…">
                 </textarea>
             </div>
-        </div>
+        </div><div class="feature-card" data-tool="tool-summary-text">
 
         <input type="file" id="emailFile" accept=".pdf,.doc,.docx,.eml,.msg" hidden>
 
