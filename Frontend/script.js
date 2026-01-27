@@ -1777,3 +1777,144 @@ translations.fr["tool.text.summary.desc"] =
   });
 })();
  /* ================= END LANGUAGE LABEL ================= */
+/* ==================================================
+   SUMMARY TOOL – FORCE FILE STATUS VISIBILITY (FINAL)
+================================================== */
+(() => {
+  const fileInput  = document.getElementById("summaryFile");
+  const textInput  = document.getElementById("inputText");
+  const fileStatus = document.getElementById("fileStatus");
+  const fileName   = document.getElementById("fileName");
+  const removeBtn  = document.getElementById("removeFileBtn");
+
+  if (!fileInput || !fileStatus || !fileName || !removeBtn) return;
+
+  // 🔥 Datei gewählt → Status + X IMMER anzeigen
+  fileInput.addEventListener("change", () => {
+    const file = fileInput.files[0];
+    if (!file) return;
+
+    fileName.textContent = `📄 ${file.name}`;
+    fileStatus.classList.remove("hidden"); // ← DAS war der fehlende Punkt
+
+    textInput.value = "";
+    textInput.disabled = true;
+  });
+
+  // ❌ Datei entfernen
+  removeBtn.addEventListener("click", e => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    fileInput.value = "";
+    fileStatus.classList.add("hidden");
+    fileName.textContent = "";
+
+    textInput.disabled = false;
+    textInput.focus();
+  });
+})();
+/* ==================================================
+   SUMMARY TOOL – FORCE FILE STATUS RENDER (FINAL)
+================================================== */
+(() => {
+  const fileInput  = document.getElementById("summaryFile");
+  const textInput  = document.getElementById("inputText");
+  const fileStatus = document.getElementById("fileStatus");
+
+  if (!fileInput || !fileStatus) return;
+
+  function renderFile(file) {
+    fileStatus.innerHTML = `
+      <span id="fileName">📄 ${file.name}</span>
+      <button
+        type="button"
+        id="removeFileBtn"
+        aria-label="Datei entfernen"
+        title="Datei entfernen"
+      >✕</button>
+    `;
+
+    fileStatus.classList.remove("hidden");
+
+    const removeBtn = document.getElementById("removeFileBtn");
+
+    removeBtn.addEventListener("click", e => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      fileInput.value = "";
+      fileStatus.classList.add("hidden");
+      fileStatus.innerHTML = "";
+
+      if (textInput) {
+        textInput.disabled = false;
+        textInput.focus();
+      }
+    });
+
+    if (textInput) {
+      textInput.value = "";
+      textInput.disabled = true;
+    }
+  }
+
+  // Datei über Picker
+  fileInput.addEventListener("change", () => {
+    const file = fileInput.files[0];
+    if (!file) return;
+    renderFile(file);
+  });
+
+})();
+/* ==================================================
+   🔥 HARD RESET – SUMMARY FILE STATUS (FINAL FINAL)
+================================================== */
+(() => {
+  const oldStatus = document.getElementById("fileStatus");
+  const fileInput = document.getElementById("summaryFile");
+  const textInput = document.getElementById("inputText");
+
+  if (!oldStatus || !fileInput) return;
+
+  // 🔥 KILL ALL OLD LISTENERS BY CLONING NODE
+  const status = oldStatus.cloneNode(false);
+  oldStatus.parentNode.replaceChild(status, oldStatus);
+
+  status.className = "file-box hidden";
+
+  function render(file) {
+    status.innerHTML = `
+      <span>📄 ${file.name}</span>
+      <button type="button" aria-label="Remove file">✕</button>
+    `;
+
+    status.classList.remove("hidden");
+
+    const btn = status.querySelector("button");
+    btn.onclick = e => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      fileInput.value = "";
+      status.classList.add("hidden");
+      status.innerHTML = "";
+
+      if (textInput) {
+        textInput.disabled = false;
+        textInput.focus();
+      }
+    };
+
+    if (textInput) {
+      textInput.value = "";
+      textInput.disabled = true;
+    }
+  }
+
+  fileInput.addEventListener("change", () => {
+    const file = fileInput.files[0];
+    if (!file) return;
+    render(file);
+  });
+})();

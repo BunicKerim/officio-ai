@@ -2181,3 +2181,76 @@ body:not(.dark) {
 /* =====================================================
    END TOOL GRID SPACING – REDUCED
    ===================================================== */
+/* =========================================
+   FORCE REMOVE BUTTON VISIBILITY (SUMMARY)
+========================================= */
+
+.file-box {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.file-box button {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+
+  width: 28px;
+  height: 28px;
+
+  border-radius: 50%;
+  border: none;
+
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.file-box button:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+/* =========================================
+   🔥 FORCE REMOVE-X VISIBILITY (SUMMARY TOOL)
+========================================= */
+
+#tool-summary #fileStatus {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+#tool-summary #fileStatus button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  width: 28px !important;
+  height: 28px !important;
+
+  border-radius: 50% !important;
+  border: none !important;
+
+  background: rgba(255,255,255,0.15) !important;
+  color: #fff !important;
+
+  font-size: 16px !important;
+  font-weight: 600 !important;
+
+  cursor: pointer !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+#tool-summary #fileStatus.hidden {
+  display: none !important;
+}
