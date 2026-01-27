@@ -1918,3 +1918,334 @@ translations.fr["tool.text.summary.desc"] =
     render(file);
   });
 })();
+/* =========================================
+   OFFICIO – FILE STATE FIX (SUMMARY TOOL)
+========================================= */
+
+(function () {
+  const fileInput = document.getElementById("summaryFile");
+  const fileStatus = document.getElementById("fileStatus");
+  const fileName = document.getElementById("fileName");
+  const removeBtn = document.getElementById("removeFileBtn");
+  const textInput = document.getElementById("inputText");
+
+  if (!fileInput || !fileStatus || !removeBtn) return;
+
+  function resetFileState() {
+    fileInput.value = "";
+    fileStatus.classList.add("hidden");
+    fileName.textContent = "";
+    textInput.disabled = false;
+    textInput.value = "";
+  }
+
+  fileInput.addEventListener("change", () => {
+    if (!fileInput.files.length) return;
+
+    const file = fileInput.files[0];
+    fileName.textContent = `📄 ${file.name}`;
+    fileStatus.classList.remove("hidden");
+
+    // Text deaktivieren, damit kein Mischzustand entsteht
+    textInput.value = "";
+    textInput.disabled = true;
+  });
+
+  removeBtn.addEventListener("click", resetFileState);
+})();
+/* =========================================
+   OFFICIO – LOADING STATE HANDLER
+========================================= */
+
+function setLoading(button, isLoading) {
+  if (!button) return;
+
+  button.disabled = isLoading;
+  button.dataset.originalText ??= button.textContent;
+
+  if (isLoading) {
+    button.textContent = "Processing…";
+    button.classList.add("loading");
+  } else {
+    button.textContent = button.dataset.originalText;
+    button.classList.remove("loading");
+  }
+}
+function showOutput(el, text) {
+  if (!el) return;
+  el.textContent = text;
+  el.style.display = text ? "block" : "none";
+}
+document.querySelectorAll(".feature-card").forEach(card => {
+  card.addEventListener("click", () => {
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 50);
+  });
+});
+/* =========================================
+   OFFICIO – HARD FILE REMOVE FIX (DELEGATION)
+========================================= */
+
+document.addEventListener("click", function (e) {
+  if (e.target.id !== "removeFileBtn") return;
+
+  const fileInput = document.getElementById("summaryFile");
+  const fileStatus = document.getElementById("fileStatus");
+  const fileName = document.getElementById("fileName");
+  const textInput = document.getElementById("inputText");
+
+  // Reset file input
+  if (fileInput) fileInput.value = "";
+
+  // Hide file box
+  if (fileStatus) fileStatus.classList.add("hidden");
+
+  // Clear filename
+  if (fileName) fileName.textContent = "";
+
+  // Re-enable text input
+  if (textInput) {
+    textInput.disabled = false;
+    textInput.focus();
+  }
+
+  e.preventDefault();
+});
+/* =========================================
+   OFFICIO – INPUT VALIDATION
+========================================= */
+
+function hasValidSummaryInput() {
+  const text = document.getElementById("inputText")?.value.trim();
+  const file = document.getElementById("summaryFile")?.files.length;
+  return Boolean(text || file);
+}
+
+document.getElementById("summarizeBtn")?.addEventListener("click", (e) => {
+  if (!hasValidSummaryInput()) {
+    e.preventDefault();
+    alert("Bitte Text eingeben oder eine Datei hochladen.");
+    return;
+  }
+});
+/* =========================================
+   OFFICIO – ERROR HANDLER
+========================================= */
+
+function showError(outputEl, message) {
+  if (!outputEl) return;
+  outputEl.textContent = message;
+  outputEl.style.display = "block";
+  outputEl.style.color = "#ff6b6b";
+}
+/* =========================================
+   OFFICIO – LOCK INPUTS WHILE LOADING
+========================================= */
+
+function setInputsDisabled(disabled) {
+  document
+    .querySelectorAll("textarea, input[type='file'], select")
+    .forEach(el => el.disabled = disabled);
+}
+/* =========================================
+   OFFICIO – AUTO SCROLL TO OUTPUT
+========================================= */
+
+function scrollToOutput(el) {
+  if (!el) return;
+  el.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+/* =========================================
+   OFFICIO – RESET TOOL STATE
+========================================= */
+
+document.querySelectorAll(".back-to-start").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document
+      .querySelectorAll("textarea")
+      .forEach(t => t.value = "");
+
+    document
+      .querySelectorAll(".file-box")
+      .forEach(b => b.classList.add("hidden"));
+
+    document
+      .querySelectorAll("#output, #emailOutput, #textSummaryOutput")
+      .forEach(o => o.textContent = "");
+  });
+});
+/* =========================================
+   OFFICIO – INPUT VALIDATION
+========================================= */
+
+function hasValidSummaryInput() {
+  const text = document.getElementById("inputText")?.value.trim();
+  const file = document.getElementById("summaryFile")?.files?.length;
+  return Boolean(text || file);
+}
+/* =========================================
+   OFFICIO – ERROR HANDLER
+========================================= */
+
+function showError(outputEl, message) {
+  if (!outputEl) return;
+  outputEl.textContent = message;
+  outputEl.style.display = "block";
+  outputEl.style.color = "#ff6b6b";
+}
+/* =========================================
+   OFFICIO – AUTO SCROLL TO OUTPUT
+========================================= */
+
+function scrollToOutput(el) {
+  if (!el) return;
+  el.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}
+/* =========================================
+   OFFICIO – COPY OUTPUT BUTTON
+========================================= */
+
+document.addEventListener("click", async (e) => {
+  if (!e.target.classList.contains("copy-output-btn")) return;
+
+  const targetId = e.target.dataset.target;
+  const output = document.getElementById(targetId);
+  if (!output || !output.textContent.trim()) return;
+
+  try {
+    await navigator.clipboard.writeText(output.textContent);
+    e.target.textContent = "Copied ✓";
+    setTimeout(() => (e.target.textContent = "Copy"), 1200);
+  } catch {
+    alert("Copy failed");
+  }
+});
+/* =========================================
+   OFFICIO – COPY FEEDBACK (FINAL)
+========================================= */
+
+document.addEventListener("click", async (e) => {
+  if (!e.target.classList.contains("copy-output-btn")) return;
+
+  const btn = e.target;
+  const targetId = btn.dataset.target;
+  const output = document.getElementById(targetId);
+
+  if (!output || !output.textContent.trim()) return;
+
+  try {
+    await navigator.clipboard.writeText(output.textContent);
+
+    const originalText = btn.textContent;
+    btn.textContent = "Copied ✓";
+    btn.classList.add("copied");
+
+    setTimeout(() => {
+      btn.textContent = originalText;
+      btn.classList.remove("copied");
+    }, 1200);
+
+  } catch (err) {
+    btn.textContent = "Failed";
+    setTimeout(() => (btn.textContent = "Copy"), 1200);
+  }
+});
+/* =========================================
+   OFFICIO – OUTPUT HIGHLIGHT TRIGGER
+========================================= */
+
+function highlightOutput(el) {
+  if (!el) return;
+
+  el.classList.remove("output-highlight"); // reset
+  void el.offsetWidth; // reflow erzwingen
+  el.classList.add("output-highlight");
+}
+/* =========================================
+   OFFICIO – ENTER TO EXECUTE (FINAL)
+========================================= */
+
+document.addEventListener("keydown", (e) => {
+  // Shift+Enter = neue Zeile erlauben
+  if (e.key !== "Enter" || e.shiftKey) return;
+
+  const activeTool = document.querySelector(".tool-section.active");
+  if (!activeTool) return;
+
+  const tag = document.activeElement.tagName.toLowerCase();
+  if (tag !== "textarea") return;
+
+  e.preventDefault();
+
+  // TEXT SUMMARY TOOL
+  if (activeTool.id === "tool-summary-text") {
+    document.getElementById("textSummaryBtn")?.click();
+    return;
+  }
+
+  // FILE / TEXT SUMMARY TOOL
+  if (activeTool.id === "tool-summary") {
+    document.getElementById("summarizeBtn")?.click();
+    return;
+  }
+
+  // EMAIL TOOL
+  if (activeTool.id === "tool-email") {
+    document.getElementById("emailGenerateBtn")?.click();
+    return;
+  }
+});
+/* =========================================
+   OFFICIO – AUTO FOCUS FIRST FIELD (FINAL)
+========================================= */
+
+function officioAutoFocus(toolId) {
+  const tool = document.getElementById(toolId);
+  if (!tool) return;
+
+  // Erstes aktives Textfeld finden
+  const field = tool.querySelector(
+    "textarea:not([disabled]), input[type='text']:not([disabled])"
+  );
+
+  if (field) {
+    // kleiner Delay wegen Transitionen
+    setTimeout(() => {
+      field.focus();
+    }, 180);
+  }
+}
+function openTool(id) {
+    document.body.classList.add("tool-active");
+    toolSections.forEach(s =>
+        s.classList.toggle("active", s.id === id)
+    );
+
+    officioAutoFocus(id); // 👈 AUTO-FOCUS
+}
+/* =========================================
+   OFFICIO – AUTO SCROLL TO OUTPUT (FINAL)
+========================================= */
+
+function officioScrollToOutput(outputEl) {
+  if (!outputEl) return;
+
+  const rect = outputEl.getBoundingClientRect();
+  const isVisible =
+    rect.top >= 0 &&
+    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight);
+
+  // Nur scrollen, wenn Output NICHT sichtbar ist
+  if (!isVisible) {
+    setTimeout(() => {
+      outputEl.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }, 120);
+  }
+}
