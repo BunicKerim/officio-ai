@@ -225,30 +225,64 @@ async def email_reply_file(
 ):
     print("📥 /email-reply-file")
 
-    text = await extract_text_from_file(file)
+    # ---------- Datei lesen ----------
+    try:
+        text = await extract_text_from_file(file)
+    except Exception as e:
+        print("❌ Datei-Extraktion fehlgeschlagen:", repr(e))
+        raise HTTPException(
+            status_code=400,
+            detail="E-Mail-Datei konnte nicht gelesen werden"
+        )
 
-    if not text.strip():
-        raise HTTPException(status_code=400, detail="E-Mail-Datei enthält keinen Text")
+    if not text or not text.strip():
+        raise HTTPException(
+            status_code=400,
+            detail="E-Mail-Datei enthält keinen lesbaren Inhalt"
+        )
 
+    # ---------- Sicherheits-Limit (Render / OpenAI safe) ----------
+    MAX_CHARS = 12000
+    if len(text) > MAX_CHARS:
+        print(f"⚠️ E-Mail Text gekürzt: {len(text)} → {MAX_CHARS}")
+        text = text[:MAX_CHARS]
+
+    # ---------- Prompt ----------
     prompt = f"""
-Du sollst eine professionelle E-Mail-Antwort verfassen.
+Du bist ein professioneller Büroassistent.
+
+AUFGABE:
+Analysiere die folgende E-Mail und verfasse eine passende Antwort.
+
+WICHTIG:
+- Die Antwort MUSS sich konkret auf den Inhalt der E-Mail beziehen
+- Keine Zusammenfassung der Original-Mail
+- Schreibe eine vollständige, sendefertige Antwort
+- Kein Meta-Kommentar, kein Hinweis auf Analyse
+- Natürlicher, menschlicher Ton
 
 STIL:
 {style}
 
-STICHWORTE:
+STICHWORTE / VORGABEN:
 {keywords or "Keine"}
 
 ORIGINAL-E-MAIL (aus Datei):
 {text}
 """.strip()
 
+    # ---------- KI ----------
     try:
         result = call_ai(ROLE, prompt)
         return {"result": result}
+
     except Exception as e:
-        print("❌ email-file:", e)
-        return {"result": "❌ Fehler bei der E-Mail-Erstellung."}
+        print("❌ email-reply-file OpenAI Fehler:", repr(e))
+        raise HTTPException(
+            status_code=500,
+            detail="KI-E-Mail-Antwort konnte nicht erstellt werden"
+        )
+
 
 # ================= SMART TRANSLATE (TEXT) =================
 
