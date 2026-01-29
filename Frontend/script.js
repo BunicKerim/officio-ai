@@ -2980,3 +2980,93 @@ document.addEventListener("click", e => {
   // -------- SUMMARY TOOL --------
   bindEnter("summaryInput", "summaryBtn");
 })();
+/* =========================================
+   OFFICIO – SUMMARY TOOL (TEXT ODER DATEI)
+   APPEND-ONLY | FINAL
+========================================= */
+
+(() => {
+  const btn = document.getElementById("summaryBtn");
+  if (!btn) return;
+
+  // Kill alte Listener
+  const cleanBtn = btn.cloneNode(true);
+  btn.parentNode.replaceChild(cleanBtn, btn);
+
+  cleanBtn.addEventListener("click", async () => {
+    const textEl = document.getElementById("summaryInput");
+    const fileEl = document.getElementById("summaryFileInput");
+    const outputEl = document.getElementById("textSummaryOutput");
+
+    const text = textEl?.value.trim() || "";
+    const file = fileEl?.files?.[0] || null;
+
+    // 🔒 Exklusive Logik
+    if (!text && !file) {
+      outputEl.textContent = "❌ Bitte Text eingeben ODER eine Datei hochladen.";
+      return;
+    }
+    if (text && file) {
+      outputEl.textContent = "❌ Bitte entweder Text ODER Datei verwenden, nicht beides.";
+      return;
+    }
+
+    cleanBtn.disabled = true;
+    cleanBtn.textContent = "Processing…";
+    outputEl.textContent = "⏳ Zusammenfassung wird erstellt …";
+
+    try {
+      let res;
+
+      // -------- DATEI --------
+      if (file) {
+        const fd = new FormData();
+        fd.append("file", file);
+        fd.append("instruction", text || "Bitte zusammenfassen");
+
+        res = await fetch("https://officio-ai-lybv.onrender.com/summarize-file", {
+          method: "POST",
+          body: fd
+        });
+
+      // -------- TEXT --------
+      } else {
+        const payload = {
+          text: text
+        };
+
+        res = await fetch("https://officio-ai-lybv.onrender.com/summarize", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+      }
+
+      if (!res.ok) throw new Error(await res.text());
+
+      const data = await res.json();
+      outputEl.textContent = data.result || "";
+
+    } catch (e) {
+      console.error(e);
+      outputEl.textContent = "❌ Fehler bei der Zusammenfassung.";
+    } finally {
+      cleanBtn.disabled = false;
+      cleanBtn.textContent = "Zusammenfassen";
+    }
+  });
+
+  // UX: Datei ↔ Text sperren
+  const fileEl = document.getElementById("summaryFileInput");
+  const textEl = document.getElementById("summaryInput");
+
+  if (fileEl && textEl) {
+    fileEl.addEventListener("change", () => {
+      textEl.disabled = !!fileEl.files.length;
+      if (textEl.disabled) textEl.value = "";
+    });
+    textEl.addEventListener("input", () => {
+      if (textEl.value.trim()) fileEl.value = "";
+    });
+  }
+})();
