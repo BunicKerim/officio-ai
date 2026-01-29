@@ -3174,3 +3174,126 @@ document.addEventListener("click", e => {
     });
   }
 })();
+/* =========================================
+   OFFICIO – SUMMARY REQUEST ROUTER (ONLINE SAFE)
+========================================= */
+(() => {
+  const btn = document.getElementById("summarizeBtn");
+  if (!btn) return;
+
+  const cleanBtn = btn.cloneNode(true);
+  btn.parentNode.replaceChild(cleanBtn, btn);
+
+  cleanBtn.addEventListener("click", async () => {
+    const fileInput = document.getElementById("summaryFile");
+    const textInput = document.getElementById("inputText");
+    const focusInput = document.getElementById("summaryFocus");
+    const output = document.getElementById("output");
+
+    const hasFile = fileInput?.files?.length > 0;
+    const text = textInput?.value.trim();
+    const focus = focusInput?.value || "";
+
+    output.textContent = "⏳ Verarbeitung…";
+
+    try {
+      let res;
+
+      // 📄 DATEI
+      if (hasFile) {
+        const fd = new FormData();
+        fd.append("file", fileInput.files[0]);
+        fd.append("focus", focus);
+
+        res = await fetch(`${OFFICIO_API}/summarize-file`, {
+          method: "POST",
+          body: fd
+        });
+      }
+
+      // 📝 TEXT
+      else if (text) {
+        res = await fetch(`${OFFICIO_API}/summarize`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text, focus })
+        });
+      } else {
+        output.textContent = "❌ Text oder Datei fehlt.";
+        return;
+      }
+
+      const data = await res.json();
+      output.textContent = data.result || "❌ Keine Antwort.";
+
+    } catch (e) {
+      console.error(e);
+      output.textContent = "❌ Fehler bei der Zusammenfassung.";
+    }
+  });
+})();
+/* =========================================
+   OFFICIO – EMAIL REQUEST ROUTER (ONLINE SAFE)
+========================================= */
+(() => {
+  const btn = document.getElementById("emailGenerateBtn");
+  if (!btn) return;
+
+  const cleanBtn = btn.cloneNode(true);
+  btn.parentNode.replaceChild(cleanBtn, btn);
+
+  cleanBtn.addEventListener("click", async () => {
+    const textEl = document.getElementById("emailOriginal");
+    const fileEl = document.getElementById("emailFile");
+    const keywordsEl = document.getElementById("emailKeywords");
+    const styleEl = document.getElementById("emailStyle");
+    const output = document.getElementById("emailOutput");
+
+    const text = textEl?.value.trim();
+    const file = fileEl?.files?.[0];
+    const keywords = keywordsEl?.value || "";
+    const style = styleEl?.value || "neutral";
+
+    output.textContent = "⏳ Antwort wird erstellt…";
+
+    try {
+      let res;
+
+      // 📄 DATEI
+      if (file) {
+        const fd = new FormData();
+        fd.append("file", file);
+        fd.append("keywords", keywords);
+        fd.append("style", style);
+
+        res = await fetch(`${OFFICIO_API}/email-reply-file`, {
+          method: "POST",
+          body: fd
+        });
+      }
+
+      // 📝 TEXT
+      else if (text) {
+        res = await fetch(`${OFFICIO_API}/email-reply`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            original_email: text,
+            keywords,
+            style
+          })
+        });
+      } else {
+        output.textContent = "❌ Text oder Datei fehlt.";
+        return;
+      }
+
+      const data = await res.json();
+      output.textContent = data.result || "❌ Keine Antwort.";
+
+    } catch (e) {
+      console.error(e);
+      output.textContent = "❌ Fehler bei der E-Mail-Erstellung.";
+    }
+  });
+})();
