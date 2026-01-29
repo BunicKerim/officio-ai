@@ -6,6 +6,7 @@ const OFFICIO_API =
     ? "http://127.0.0.1:8000"
     : "https://officio-ai-lybv.onrender.com";
 
+
 /* ==================================================
    I18N – STEP 1: TRANSLATIONS (SINGLE SOURCE)
 ================================================== */
@@ -3079,74 +3080,97 @@ document.addEventListener("click", e => {
   }
 })();
 /* =========================================
-   OFFICIO – SUMMARY BUTTON FINAL OVERRIDE
-   Fix: File race condition / double state
-   (APPEND-ONLY, SAFE)
+   OFFICIO – EMAIL TOOL (TEXT ODER DATEI)
+   APPEND-ONLY | STABLE (ONLINE)
 ========================================= */
 (() => {
-  const btn = document.getElementById("summarizeBtn");
+  const btn = document.getElementById("emailGenerateBtn");
   if (!btn) return;
 
-  // 🔥 Kill ALL old listeners safely
+  // 🔥 Kill alte Listener
   const cleanBtn = btn.cloneNode(true);
   btn.parentNode.replaceChild(cleanBtn, btn);
 
-  const output = document.getElementById("output");
-  const fileInput = document.getElementById("summaryFile");
-  const textInput = document.getElementById("inputText");
-  const focusInput = document.getElementById("summaryFocus");
-
   cleanBtn.addEventListener("click", async () => {
-    const hasFile = fileInput?.files?.length > 0;
-    const text = textInput?.value?.trim();
-    const focus = focusInput?.value?.trim() || "";
+    const textEl     = document.getElementById("emailOriginal");
+    const fileEl     = document.getElementById("emailFile");
+    const keywordsEl = document.getElementById("emailKeywords");
+    const styleEl    = document.getElementById("emailStyle");
+    const outputEl   = document.getElementById("emailOutput");
 
-    if (!hasFile && !text) {
-      output.textContent = "❌ Bitte Text eingeben oder Datei hochladen.";
+    const text     = textEl?.value?.trim() || "";
+    const file     = fileEl?.files?.[0] || null;
+    const keywords = keywordsEl?.value || "";
+    const style    = styleEl?.value || "neutral";
+
+    // 🔒 Exklusive Logik
+    if (!text && !file) {
+      outputEl.textContent = "❌ Bitte Text eingeben ODER eine Datei hochladen.";
+      return;
+    }
+    if (text && file) {
+      outputEl.textContent = "❌ Bitte entweder Text ODER Datei verwenden.";
       return;
     }
 
-    output.style.display = "block";
-    output.textContent = "🧠 Zusammenfassung wird erstellt…";
     cleanBtn.disabled = true;
+    outputEl.textContent = "⏳ Antwort wird erstellt …";
 
     try {
       let res;
 
-      // ================= FILE MODE =================
-      if (hasFile) {
-        const formData = new FormData();
-        formData.append("file", fileInput.files[0]);
-        formData.append("focus", focus);
+      // ===== DATEI =====
+      if (file) {
+        const fd = new FormData();
+        fd.append("file", file);
+        fd.append("keywords", keywords);
+        fd.append("style", style);
 
-        res = await fetch(`${OFFICIO_API}/summarize-file`, {
+        res = await fetch(`${OFFICIO_API}/email-reply-file`, {
           method: "POST",
-          body: formData
+          body: fd
         });
-      }
 
-      // ================= TEXT MODE =================
-      else {
-        res = await fetch(`${OFFICIO_API}/summarize`, {
+      // ===== TEXT =====
+      } else {
+        res = await fetch(`${OFFICIO_API}/email-reply`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text, focus })
+          body: JSON.stringify({
+            original_email: text,
+            keywords,
+            style
+          })
         });
       }
 
+      if (!res.ok) throw new Error(await res.text());
       const data = await res.json();
+      outputEl.textContent = data.result || "❌ Keine Antwort erhalten.";
 
-      if (!res.ok || !data.result) {
-        throw new Error("Summarize failed");
-      }
-
-      output.textContent = data.result;
-
-    } catch (err) {
-      console.error(err);
-      output.textContent = "❌ Fehler bei der Zusammenfassung.";
+    } catch (e) {
+      console.error(e);
+      outputEl.textContent = "❌ Fehler bei der E-Mail-Erstellung.";
     } finally {
       cleanBtn.disabled = false;
     }
   });
+
+  // UX: Datei ↔ Text sperren
+  const fileEl = document.getElementById("emailFile");
+  const textEl = document.getElementById("emailOriginal");
+  if (fileEl && textEl) {
+    fileEl.addEventListener("change", () => {
+      if (fileEl.files.length) {
+        textEl.value = "";
+        textEl.disabled = true;
+      }
+    });
+    textEl.addEventListener("input", () => {
+      if (textEl.value.trim()) {
+        fileEl.value = "";
+        textEl.disabled = false;
+      }
+    });
+  }
 })();

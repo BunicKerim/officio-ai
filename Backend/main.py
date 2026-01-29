@@ -178,7 +178,12 @@ def email_reply(input: EmailReplyInput):
     print("📥 /email-reply")
 
     prompt = f"""
-Du sollst eine professionelle E-Mail-Antwort verfassen.
+Du bist ein professioneller Büroassistent.
+
+WICHTIG:
+- Die folgende E-Mail ist vollständig
+- Stelle KEINE Rückfragen
+- Nutze den Inhalt als Grundlage für deine Antwort
 
 STIL:
 {input.style}
