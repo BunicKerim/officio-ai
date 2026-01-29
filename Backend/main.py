@@ -146,10 +146,23 @@ async def summarize_file(
 ):
     print("📥 /summarize-file")
 
-    text = await extract_text_from_file(file)
+    try:
+        text = await extract_text_from_file(file)
+    except Exception as e:
+        print("❌ Datei-Extraktion fehlgeschlagen:", repr(e))
+        raise HTTPException(status_code=400, detail="Datei konnte nicht gelesen werden")
 
-    if not text.strip():
-        raise HTTPException(status_code=400, detail="Datei enthält keinen lesbaren Text")
+    if not text or not text.strip():
+        raise HTTPException(
+            status_code=400,
+            detail="Datei enthält keinen lesbaren Text"
+        )
+
+    # 🔒 HARTES LIMIT – extrem wichtig für Stabilität
+    MAX_CHARS = 12000
+    if len(text) > MAX_CHARS:
+        print(f"⚠️ Text gekürzt: {len(text)} → {MAX_CHARS}")
+        text = text[:MAX_CHARS]
 
     prompt = f"""
 Du bist ein sachlicher, präziser Büroassistent.
@@ -167,9 +180,14 @@ TEXT:
     try:
         result = call_ai(ROLE, prompt)
         return {"result": result}
+
     except Exception as e:
-        print("❌ summarize-file:", e)
-        return {"result": "❌ Fehler bei der Datei-Zusammenfassung."}
+        print("❌ summarize-file OPENAI ERROR:", repr(e))
+        raise HTTPException(
+            status_code=500,
+            detail="KI-Zusammenfassung fehlgeschlagen"
+        )
+
 
 # ================= EMAIL (TEXT) =================
 
@@ -178,12 +196,7 @@ def email_reply(input: EmailReplyInput):
     print("📥 /email-reply")
 
     prompt = f"""
-Du bist ein professioneller Büroassistent.
-
-WICHTIG:
-- Die folgende E-Mail ist vollständig
-- Stelle KEINE Rückfragen
-- Nutze den Inhalt als Grundlage für deine Antwort
+Du sollst eine professionelle E-Mail-Antwort verfassen.
 
 STIL:
 {input.style}
