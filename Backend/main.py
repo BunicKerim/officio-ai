@@ -200,3 +200,66 @@ TEXT:
     except Exception as e:
         print("❌ translate:", e)
         return {"result": "❌ Fehler bei der Übersetzung."}
+
+# ================= EMAIL FILE REPLY (APPEND-ONLY) =================
+
+@app.post("/email-reply-file")
+async def email_reply_file(
+    file: UploadFile = File(...),
+    keywords: str = Form(""),
+    style: str = Form("neutral")
+):
+    print("📥 /email-reply-file")
+
+    contents = await file.read()
+    filename = file.filename.lower()
+    text = ""
+
+    try:
+        # ---------- OUTLOOK .MSG ----------
+        if filename.endswith(".msg"):
+            import extract_msg
+            msg = extract_msg.Message(io.BytesIO(contents))
+            msg.process()
+            text = msg.body or ""
+
+        # ---------- .EML ----------
+        elif filename.endswith(".eml"):
+            from email import policy
+            from email.parser import BytesParser
+            msg = BytesParser(policy=policy.default).parsebytes(contents)
+            body = msg.get_body(preferencelist=("plain", "html"))
+            if body:
+                text = body.get_content()
+
+        # ---------- HTML MAIL ----------
+        elif filename.endswith(".html") or filename.endswith(".htm"):
+            from bs4 import BeautifulSoup
+            soup = BeautifulSoup(contents, "html.parser")
+            text = soup.get_text(separator="\n")
+
+        else:
+            return {"result": "❌ Dateityp nicht unterstützt."}
+
+        if not text.strip():
+            return {"result": "❌ Keine lesbaren Inhalte in der E-Mail gefunden."}
+
+        prompt = f"""
+Du sollst eine professionelle E-Mail-Antwort verfassen.
+
+STIL:
+{style}
+
+STICHWORTE:
+{keywords or "Keine"}
+
+EMPFANGENE E-MAIL (extrahiert):
+{text}
+""".strip()
+
+        result = call_ai(ROLE, prompt)
+        return {"result": result}
+
+    except Exception as e:
+        print("❌ email-file:", e)
+        return {"result": "❌ Fehler bei der Verarbeitung der E-Mail-Datei."}

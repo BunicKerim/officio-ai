@@ -2441,7 +2441,7 @@ document.addEventListener("click", e => {
     };
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/translate", {
+      const res = await fetch("https://officio-ai-lybv.onrender.com/translate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
@@ -2853,4 +2853,130 @@ document.addEventListener("click", e => {
       applyEmailStyleLang(e.target.value);
     });
   });
+})();
+/* =========================================
+   OFFICIO – EMAIL TOOL (TEXT ODER DATEI)
+   APPEND-ONLY
+========================================= */
+
+(() => {
+  const sendBtn = document.getElementById("emailSendBtn");
+  if (!sendBtn) return;
+
+  // Kill alte Listener (gleiches Pattern wie bei Translate)
+  const cleanBtn = sendBtn.cloneNode(true);
+  sendBtn.parentNode.replaceChild(cleanBtn, sendBtn);
+
+  cleanBtn.addEventListener("click", async () => {
+    const textEl = document.getElementById("emailInput");
+    const fileEl = document.getElementById("emailFileInput");
+    const keywordsEl = document.getElementById("emailKeywords");
+    const styleEl = document.getElementById("emailStyle");
+    const outputEl = document.getElementById("emailOutput");
+
+    const text = textEl?.value.trim() || "";
+    const file = fileEl?.files?.[0] || null;
+    const keywords = keywordsEl?.value || "";
+    const style = styleEl?.value || "neutral";
+
+    // Exklusiv-Logik
+    if (!text && !file) {
+      outputEl.value = "❌ Bitte Text eingeben ODER eine Datei hochladen.";
+      return;
+    }
+    if (text && file) {
+      outputEl.value = "❌ Bitte entweder Text ODER Datei verwenden, nicht beides.";
+      return;
+    }
+
+    cleanBtn.disabled = true;
+    cleanBtn.textContent = "Processing…";
+    outputEl.value = "⏳ Antwort wird erstellt …";
+
+    try {
+      let res;
+
+      // -------- DATEI --------
+      if (file) {
+        const fd = new FormData();
+        fd.append("file", file);
+        fd.append("keywords", keywords);
+        fd.append("style", style);
+
+        res = await fetch("https://officio-ai-lybv.onrender.com/email-reply-file", {
+          method: "POST",
+          body: fd
+        });
+
+      // -------- TEXT --------
+      } else {
+        const payload = {
+          original_email: text,
+          keywords,
+          style
+        };
+
+        res = await fetch("https://officio-ai-lybv.onrender.com/email-reply-file", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+      }
+
+      if (!res.ok) throw new Error(await res.text());
+      const data = await res.json();
+      outputEl.value = data.result || "";
+
+    } catch (e) {
+      console.error(e);
+      outputEl.value = "❌ Fehler bei der E-Mail-Erstellung.";
+    } finally {
+      cleanBtn.disabled = false;
+      cleanBtn.textContent = "Antwort erstellen";
+    }
+  });
+
+  // UX: Wenn Datei gewählt → Textfeld sperren (optional, aber empfohlen)
+  const fileEl = document.getElementById("emailFileInput");
+  const textEl = document.getElementById("emailInput");
+  if (fileEl && textEl) {
+    fileEl.addEventListener("change", () => {
+      textEl.disabled = !!fileEl.files.length;
+      if (textEl.disabled) textEl.value = "";
+    });
+    textEl.addEventListener("input", () => {
+      if (textEl.value.trim()) fileEl.value = "";
+    });
+  }
+})();
+/* =========================================
+   OFFICIO – ENTER TO EXECUTE (TOOLS)
+   APPEND-ONLY
+========================================= */
+
+(() => {
+  const bindEnter = (textareaId, buttonId) => {
+    const textarea = document.getElementById(textareaId);
+    const button = document.getElementById(buttonId);
+    if (!textarea || !button) return;
+
+    textarea.addEventListener("keydown", (e) => {
+      // Enter = ausführen, Shift+Enter = neue Zeile
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        if (!button.disabled) {
+          button.click();
+        }
+      }
+    });
+  };
+
+  // -------- TRANSLATE TOOL --------
+  bindEnter("translateInput", "translateBtn");
+
+  // -------- EMAIL TOOL --------
+  bindEnter("emailInput", "emailSendBtn");
+
+  // -------- SUMMARY TOOL --------
+  bindEnter("summaryInput", "summaryBtn");
 })();
