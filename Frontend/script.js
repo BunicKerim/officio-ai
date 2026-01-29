@@ -1,3 +1,11 @@
+/* =========================================
+   OFFICIO – API BASE (LOCAL vs PROD)
+========================================= */
+const OFFICIO_API =
+  location.hostname === "localhost"
+    ? "http://127.0.0.1:8000"
+    : "https://officio-ai-lybv.onrender.com";
+
 /* ==================================================
    I18N – STEP 1: TRANSLATIONS (SINGLE SOURCE)
 ================================================== */
@@ -3069,4 +3077,76 @@ document.addEventListener("click", e => {
       if (textEl.value.trim()) fileEl.value = "";
     });
   }
+})();
+/* =========================================
+   OFFICIO – SUMMARY BUTTON FINAL OVERRIDE
+   Fix: File race condition / double state
+   (APPEND-ONLY, SAFE)
+========================================= */
+(() => {
+  const btn = document.getElementById("summarizeBtn");
+  if (!btn) return;
+
+  // 🔥 Kill ALL old listeners safely
+  const cleanBtn = btn.cloneNode(true);
+  btn.parentNode.replaceChild(cleanBtn, btn);
+
+  const output = document.getElementById("output");
+  const fileInput = document.getElementById("summaryFile");
+  const textInput = document.getElementById("inputText");
+  const focusInput = document.getElementById("summaryFocus");
+
+  cleanBtn.addEventListener("click", async () => {
+    const hasFile = fileInput?.files?.length > 0;
+    const text = textInput?.value?.trim();
+    const focus = focusInput?.value?.trim() || "";
+
+    if (!hasFile && !text) {
+      output.textContent = "❌ Bitte Text eingeben oder Datei hochladen.";
+      return;
+    }
+
+    output.style.display = "block";
+    output.textContent = "🧠 Zusammenfassung wird erstellt…";
+    cleanBtn.disabled = true;
+
+    try {
+      let res;
+
+      // ================= FILE MODE =================
+      if (hasFile) {
+        const formData = new FormData();
+        formData.append("file", fileInput.files[0]);
+        formData.append("focus", focus);
+
+        res = await fetch(`${OFFICIO_API}/summarize-file`, {
+          method: "POST",
+          body: formData
+        });
+      }
+
+      // ================= TEXT MODE =================
+      else {
+        res = await fetch(`${OFFICIO_API}/summarize`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text, focus })
+        });
+      }
+
+      const data = await res.json();
+
+      if (!res.ok || !data.result) {
+        throw new Error("Summarize failed");
+      }
+
+      output.textContent = data.result;
+
+    } catch (err) {
+      console.error(err);
+      output.textContent = "❌ Fehler bei der Zusammenfassung.";
+    } finally {
+      cleanBtn.disabled = false;
+    }
+  });
 })();
