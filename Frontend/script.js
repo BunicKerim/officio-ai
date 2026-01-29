@@ -3297,3 +3297,79 @@ document.addEventListener("click", e => {
     }
   });
 })();
+/* =========================================
+   OFFICIO – EMAIL TOOL FIX (FILE vs TEXT)
+   APPEND-ONLY – FINAL
+========================================= */
+(() => {
+  const btn = document.getElementById("emailGenerateBtn");
+  if (!btn) return;
+
+  // 🔥 alte Listener killen
+  const cleanBtn = btn.cloneNode(true);
+  btn.parentNode.replaceChild(cleanBtn, btn);
+
+  cleanBtn.addEventListener("click", async () => {
+    const fileInput = document.getElementById("emailFile");
+    const textInput = document.getElementById("emailOriginal");
+    const keywords = document.getElementById("emailKeywords")?.value || "";
+    const style = document.getElementById("emailStyle")?.value || "neutral";
+    const output = document.getElementById("emailOutput");
+
+    const hasFile = fileInput?.files?.length > 0;
+    const text = textInput?.value?.trim();
+
+    // ❌ Validierung
+    if (!hasFile && !text) {
+      output.textContent = "❌ Bitte Text eingeben oder eine Datei hochladen.";
+      return;
+    }
+    if (hasFile && text) {
+      output.textContent = "❌ Bitte entweder Text ODER Datei verwenden.";
+      return;
+    }
+
+    output.textContent = "⏳ Antwort wird erstellt…";
+    cleanBtn.disabled = true;
+
+    try {
+      let res;
+
+      // ================= FILE =================
+      if (hasFile) {
+        const fd = new FormData();
+        fd.append("file", fileInput.files[0]);
+        fd.append("keywords", keywords);
+        fd.append("style", style);
+
+        res = await fetch(`${OFFICIO_API}/email-reply-file`, {
+          method: "POST",
+          body: fd
+        });
+      }
+
+      // ================= TEXT =================
+      else {
+        res = await fetch(`${OFFICIO_API}/email-reply`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            original_email: text,
+            keywords,
+            style
+          })
+        });
+      }
+
+      if (!res.ok) throw new Error(await res.text());
+      const data = await res.json();
+      output.textContent = data.result || "❌ Keine Antwort erhalten.";
+
+    } catch (e) {
+      console.error("❌ EMAIL TOOL:", e);
+      output.textContent = "❌ Fehler bei der E-Mail-Erstellung.";
+    } finally {
+      cleanBtn.disabled = false;
+    }
+  });
+})();
