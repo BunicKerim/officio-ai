@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File, Form
+from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
@@ -7,6 +7,9 @@ from ai_config import ROLE
 
 import re
 import io
+import tempfile
+import os
+
 from docx import Document
 from pypdf import PdfReader
 
@@ -50,6 +53,51 @@ class TranslateInput(BaseModel):
     target_lang: str
     style: str
     context: str | None = None
+
+# =================================================
+# UNIVERSAL FILE TEXT EXTRACTION
+# =================================================
+
+async def extract_text_from_file(file: UploadFile) -> str:
+    filename = file.filename.lower()
+
+    # ---------- MSG ----------
+    if filename.endswith(".msg"):
+        import extract_msg
+
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".msg") as tmp:
+            tmp.write(await file.read())
+            tmp_path = tmp.name
+
+        try:
+            msg = extract_msg.Message(tmp_path)
+            return f"""
+From: {msg.sender}
+To: {msg.to}
+Subject: {msg.subject}
+
+{msg.body}
+""".strip()
+        finally:
+            os.unlink(tmp_path)
+
+    # ---------- PDF ----------
+    if filename.endswith(".pdf"):
+        reader = PdfReader(file.file)
+        return "\n".join(
+            page.extract_text() or "" for page in reader.pages
+        )
+
+    # ---------- DOCX ----------
+    if filename.endswith(".docx"):
+        doc = Document(file.file)
+        return "\n".join(p.text for p in doc.paragraphs)
+
+    # ---------- TXT ----------
+    if filename.endswith(".txt"):
+        return (await file.read()).decode("utf-8", errors="ignore")
+
+    raise HTTPException(status_code=400, detail="Dateiformat nicht unterstützt")
 
 # ================= TEXT SUMMARY =================
 
@@ -98,48 +146,32 @@ async def summarize_file(
 ):
     print("📥 /summarize-file")
 
-    contents = await file.read()
-    filename = file.filename.lower()
-    text = ""
+    text = await extract_text_from_file(file)
 
-    try:
-        if filename.endswith(".docx"):
-            doc = Document(io.BytesIO(contents))
-            text = "\n".join(p.text for p in doc.paragraphs)
+    if not text.strip():
+        raise HTTPException(status_code=400, detail="Datei enthält keinen lesbaren Text")
 
-        elif filename.endswith(".pdf"):
-            reader = PdfReader(io.BytesIO(contents))
-            text = "\n".join(
-                p.extract_text() for p in reader.pages if p.extract_text()
-            )
-
-        else:
-            return {"result": "❌ Dateityp nicht unterstützt."}
-
-        if not text.strip():
-            return {"result": "❌ Datei enthält keinen lesbaren Text."}
-
-        focus_block = f"\nBENUTZER-VORGABEN:\n{focus}" if focus else ""
-
-        prompt = f"""
+    prompt = f"""
 Du bist ein sachlicher, präziser Büroassistent.
 
 AUFGABE:
 Fasse den folgenden Text zusammen.
-{focus_block}
+
+BENUTZER-VORGABEN:
+{focus or "Keine"}
 
 TEXT:
 {text}
 """.strip()
 
+    try:
         result = call_ai(ROLE, prompt)
         return {"result": result}
-
     except Exception as e:
         print("❌ summarize-file:", e)
         return {"result": "❌ Fehler bei der Datei-Zusammenfassung."}
 
-# ================= EMAIL =================
+# ================= EMAIL (TEXT) =================
 
 @app.post("/email-reply")
 def email_reply(input: EmailReplyInput):
@@ -165,7 +197,42 @@ ORIGINAL-E-MAIL:
         print("❌ email:", e)
         return {"result": "❌ Fehler bei der E-Mail-Erstellung."}
 
-# ================= SMART TRANSLATE =================
+# ================= EMAIL (FILE-FIRST) =================
+
+@app.post("/email-reply-file")
+async def email_reply_file(
+    file: UploadFile = File(...),
+    keywords: str = Form(""),
+    style: str = Form("neutral")
+):
+    print("📥 /email-reply-file")
+
+    text = await extract_text_from_file(file)
+
+    if not text.strip():
+        raise HTTPException(status_code=400, detail="E-Mail-Datei enthält keinen Text")
+
+    prompt = f"""
+Du sollst eine professionelle E-Mail-Antwort verfassen.
+
+STIL:
+{style}
+
+STICHWORTE:
+{keywords or "Keine"}
+
+ORIGINAL-E-MAIL (aus Datei):
+{text}
+""".strip()
+
+    try:
+        result = call_ai(ROLE, prompt)
+        return {"result": result}
+    except Exception as e:
+        print("❌ email-file:", e)
+        return {"result": "❌ Fehler bei der E-Mail-Erstellung."}
+
+# ================= SMART TRANSLATE (TEXT) =================
 
 @app.post("/translate")
 def translate(input: TranslateInput):
@@ -175,20 +242,13 @@ def translate(input: TranslateInput):
 Du bist ein professioneller Übersetzer für Büro- und Geschäftstexte.
 
 AUFGABE:
-Übersetze den folgenden Text vollständig und korrekt in folgende Sprache:
-{input.target_lang}
+Übersetze den folgenden Text nach {input.target_lang}
 
 STIL:
 {input.style}
 
 KONTEXT:
 {input.context or "Kein zusätzlicher Kontext"}
-
-WICHTIG:
-- Ausgangssprache automatisch erkennen
-- Keine Erklärungen
-- Keine Kommentare
-- Nur den übersetzten Text zurückgeben
 
 TEXT:
 {input.text}
@@ -201,65 +261,41 @@ TEXT:
         print("❌ translate:", e)
         return {"result": "❌ Fehler bei der Übersetzung."}
 
-# ================= EMAIL FILE REPLY (APPEND-ONLY) =================
+# ================= SMART TRANSLATE (FILE-FIRST) =================
 
-@app.post("/email-reply-file")
-async def email_reply_file(
+@app.post("/translate-file")
+async def translate_file(
     file: UploadFile = File(...),
-    keywords: str = Form(""),
-    style: str = Form("neutral")
+    target_lang: str = Form("DE"),
+    style: str = Form("neutral"),
+    context: str = Form("")
 ):
-    print("📥 /email-reply-file")
+    print("📥 /translate-file")
 
-    contents = await file.read()
-    filename = file.filename.lower()
-    text = ""
+    text = await extract_text_from_file(file)
 
-    try:
-        # ---------- OUTLOOK .MSG ----------
-        if filename.endswith(".msg"):
-            import extract_msg
-            msg = extract_msg.Message(io.BytesIO(contents))
-            msg.process()
-            text = msg.body or ""
+    if not text.strip():
+        raise HTTPException(status_code=400, detail="Datei enthält keinen Text")
 
-        # ---------- .EML ----------
-        elif filename.endswith(".eml"):
-            from email import policy
-            from email.parser import BytesParser
-            msg = BytesParser(policy=policy.default).parsebytes(contents)
-            body = msg.get_body(preferencelist=("plain", "html"))
-            if body:
-                text = body.get_content()
+    prompt = f"""
+Du bist ein professioneller Übersetzer.
 
-        # ---------- HTML MAIL ----------
-        elif filename.endswith(".html") or filename.endswith(".htm"):
-            from bs4 import BeautifulSoup
-            soup = BeautifulSoup(contents, "html.parser")
-            text = soup.get_text(separator="\n")
-
-        else:
-            return {"result": "❌ Dateityp nicht unterstützt."}
-
-        if not text.strip():
-            return {"result": "❌ Keine lesbaren Inhalte in der E-Mail gefunden."}
-
-        prompt = f"""
-Du sollst eine professionelle E-Mail-Antwort verfassen.
+AUFGABE:
+Übersetze den folgenden Text nach {target_lang}
 
 STIL:
 {style}
 
-STICHWORTE:
-{keywords or "Keine"}
+KONTEXT:
+{context or "Kein zusätzlicher Kontext"}
 
-EMPFANGENE E-MAIL (extrahiert):
+TEXT:
 {text}
 """.strip()
 
+    try:
         result = call_ai(ROLE, prompt)
         return {"result": result}
-
     except Exception as e:
-        print("❌ email-file:", e)
-        return {"result": "❌ Fehler bei der Verarbeitung der E-Mail-Datei."}
+        print("❌ translate-file:", e)
+        return {"result": "❌ Fehler bei der Datei-Übersetzung."}
