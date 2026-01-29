@@ -3536,3 +3536,53 @@ document.addEventListener("click", e => {
     }
   });
 })();
+// ================= EMAIL FILE SUBMIT (FINAL) =================
+(async () => {
+  const btn = document.getElementById("emailGenerateBtn");
+  if (!btn) return;
+
+  // alte Listener killen
+  const cleanBtn = btn.cloneNode(true);
+  btn.parentNode.replaceChild(cleanBtn, btn);
+
+  cleanBtn.addEventListener("click", async () => {
+    const fileInput = document.getElementById("emailFile");
+    const keywords = document.getElementById("emailKeywords")?.value || "";
+    const style = document.getElementById("emailStyle")?.value || "neutral";
+    const output = document.getElementById("emailOutput");
+
+    if (!fileInput || !fileInput.files.length) {
+      output.textContent = "❌ Bitte E-Mail-Datei hochladen.";
+      return;
+    }
+
+    output.textContent = "📨 E-Mail wird analysiert …";
+    cleanBtn.disabled = true;
+
+    const formData = new FormData();
+    formData.append("file", fileInput.files[0]);
+    formData.append("keywords", keywords);
+    formData.append("style", style);
+
+    try {
+      const res = await fetch(`${OFFICIO_API}/email-reply-file`, {
+        method: "POST",
+        body: formData
+      });
+
+      if (!res.ok) {
+        const txt = await res.text();
+        throw new Error(txt);
+      }
+
+      const data = await res.json();
+      output.textContent = data.result || "❌ Keine Antwort erhalten.";
+
+    } catch (err) {
+      console.error("❌ EMAIL FILE ERROR:", err);
+      output.textContent = "❌ Fehler bei der Verarbeitung.";
+    } finally {
+      cleanBtn.disabled = false;
+    }
+  });
+})();
