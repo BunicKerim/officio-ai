@@ -1,5 +1,9 @@
+import os
 from dotenv import load_dotenv
+
 load_dotenv()
+API_KEY = os.getenv("OPENAI_API_KEY")
+
 
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.middleware.cors import CORSMiddleware

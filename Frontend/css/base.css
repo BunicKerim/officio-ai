@@ -1,0 +1,83 @@
+/* =========================================
+   OFFICIO – GLOBAL BASE
+========================================= */
+
+* {
+    box-sizing: border-box;
+    font-family: Inter, sans-serif;
+}
+
+/* ===============================
+   DARK MODE FORCED
+=============================== */
+
+body {
+    margin: 0;
+    background-color: #050816;
+    color: #e8ecff;
+}
+
+/* Light-Mode neutralisieren */
+body:not(.dark) {
+    background-color: #050816 !important;
+    color: #e8ecff !important;
+}
+
+/* ===============================
+   TYPOGRAPHY BASE
+=============================== */
+
+h1, h2, h3 {
+    color: #f1f5f9;
+}
+
+p {
+    color: #cbd5e1;
+}
+
+/* ===============================
+   THEME TOGGLE DISABLED
+=============================== */
+
+#themeToggle {
+    display: none !important;
+}
+
+.theme-toggle.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+/* =========================================
+   OFFICIO – DEPTH BACKGROUND LAYER
+   Append Only
+========================================= */
+
+.app-body {
+    position: relative;
+    overflow-x: hidden;
+}
+
+.app-body::before {
+    content: "";
+    position: absolute;
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(109,74,255,0.25) 0%, transparent 70%);
+    top: -200px;
+    left: -200px;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.app-body::after {
+    content: "";
+    position: absolute;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(75,46,214,0.2) 0%, transparent 70%);
+    bottom: -200px;
+    right: -200px;
+    z-index: 0;
+    pointer-events: none;
+}

@@ -1,0 +1,1997 @@
+/* =========================================
+   OFFICIO – LAYOUT
+   (STRUCTURE / POSITIONING ONLY)
+========================================= */
+
+
+/* ==================================================
+   HEADER STRUCTURE
+================================================== */
+
+.app-header {
+    position: relative;
+    height: 320px;
+    overflow: hidden;
+    background: linear-gradient(135deg,#6b4ce6,#9c7af0);
+}
+
+#heroCanvas {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.header-inner {
+    position: relative;
+    z-index: 2;
+    padding: 56px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.app-title {
+    font-size: 44px;
+}
+
+.subtitle {
+    opacity: 0.85;
+}
+
+
+/* ==================================================
+   MAIN CONTAINER
+================================================== */
+
+.app-main {
+    padding: 40px 24px;
+    position: relative;
+}
+
+
+/* ==================================================
+   START HERO
+================================================== */
+
+#startHero {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.hero-subline {
+    font-size: 18px;
+    margin-top: 12px;
+}
+
+.hero-trust {
+    margin-top: 14px;
+    font-size: 13px;
+    opacity: 0.55;
+}
+
+
+/* ==================================================
+   FEATURE GRID
+================================================== */
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+    gap: 36px;
+    max-width: 900px;
+    margin: 0 auto 80px;
+}
+
+
+/* ==================================================
+   INFO SECTION POSITIONING
+================================================== */
+
+.officio-purpose {
+    margin-top: -90px;
+}
+
+@media (max-width: 1100px) {
+    .officio-purpose {
+        margin-top: 0;
+    }
+}
+
+
+/* ==================================================
+   TOOL VIEW SWITCHING
+================================================== */
+
+/* Startseite verstecken wenn Tool aktiv */
+body.tool-active #startHero,
+body.tool-active #featureGrid,
+body.tool-active .officio-purpose {
+    display: none;
+}
+
+/* Tool bekommt eigene Seite */
+body.tool-active .tool-section.active {
+    display: block;
+    min-height: calc(100vh - 320px);
+    padding-top: 40px;
+}
+
+/* Standardzustand */
+.tool-section {
+    display: none;
+}
+
+
+/* ==================================================
+   LANGUAGE SELECT POSITION
+================================================== */
+
+.header-actions {
+    position: relative;
+    z-index: 5;
+}
+
+#languageSelect {
+    position: relative;
+    top: 130px;
+}
+
+
+/* ==================================================
+   RESPONSIVE DESIGN
+================================================== */
+
+/* TABLET */
+@media (max-width: 1100px) {
+
+    .header-inner {
+        padding: 36px 32px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    #startHero h2 {
+        font-size: 26px;
+        line-height: 1.3;
+    }
+
+    .feature-grid {
+        gap: 28px;
+    }
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+    .app-header {
+        height: auto;
+        padding-bottom: 40px;
+    }
+
+    .app-title {
+        font-size: 32px;
+    }
+
+    .subtitle {
+        font-size: 14px;
+    }
+
+    #startHero {
+        margin-bottom: 32px;
+        padding: 0 10px;
+    }
+
+    #startHero h2 {
+        font-size: 22px;
+    }
+
+    body.tool-active .tool-section.active {
+        padding-top: 24px;
+    }
+}
+
+/* SMALL MOBILE */
+@media (max-width: 480px) {
+
+    .header-inner {
+        padding: 28px 20px;
+    }
+
+    .app-title {
+        font-size: 28px;
+    }
+
+    #startHero h2 {
+        font-size: 20px;
+    }
+}
+/* =========================================
+   OFFICIO – STAGE CENTERING LAYER
+   Append Only
+========================================= */
+
+.app-body .app-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 80px;
+    padding-bottom: 120px;
+}
+
+.app-body .feature-grid {
+    max-width: 1100px;
+    width: 100%;
+    justify-content: center;
+    gap: 48px;
+    margin-bottom: 120px;
+}
+/* =========================================
+   OFFICIO – HEADER REFINEMENT
+   Append Only
+========================================= */
+
+.app-body .app-header {
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+}
+
+.app-body .app-header h1 {
+    letter-spacing: 0.5px;
+}
+/* =========================================
+   LANDING HERO STAGE
+   Append Only
+========================================= */
+
+.landing-body {
+    background: #020617;
+    color: #e2e8f0;
+}
+
+.landing-header {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 20px;
+}
+
+.hero-container {
+    max-width: 900px;
+}
+
+.hero-title {
+    font-size: 4rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    background: linear-gradient(135deg, #ffffff, #c4b5fd);
+
+    -webkit-background-clip: text;
+    background-clip: text; /* ← DAS HINZUFÜGEN */
+    
+    -webkit-text-fill-color: transparent;
+    color: transparent; /* ← ebenfalls ergänzen */
+}
+
+
+.hero-subtitle {
+    font-size: 1.3rem;
+    opacity: 0.75;
+    margin-bottom: 40px;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 60px;
+}
+/* =========================================
+   LANDING – HERO TO FEATURES SPACING FIX
+========================================= */
+
+/* Hero kompakter machen */
+.landing-header {
+    padding-bottom: 80px !important;
+}
+
+/* Feature Section näher hochziehen */
+.landing-features {
+    margin-top: -60px;
+    padding-top: 40px;
+}
+
+/* Optional: Section Titel etwas kompakter */
+.section-title {
+    margin-bottom: 40px;
+}
+/* =========================================
+   LANDING – FULL VIEW FIX
+   Alles auf einen Blick sichtbar
+========================================= */
+
+/* Hero nicht mehr 100vh */
+.landing-header {
+    min-height: auto !important;
+    padding-top: 120px;
+    padding-bottom: 60px !important;
+}
+
+/* Features direkt anschließen */
+.landing-features {
+    margin-top: 0 !important;
+    padding-top: 40px;
+}
+
+/* Weniger Abstand unter CTA */
+.hero-description {
+    margin-bottom: 30px;
+}
+
+/* Section Titel kompakter */
+.section-title {
+    margin-bottom: 30px !important;
+}
+/* =========================================
+   PREMIUM HERO BACKGROUND
+========================================= */
+
+.landing-header {
+    position: relative;
+    overflow: hidden;
+
+    background:
+        radial-gradient(circle at 20% 20%, rgba(139,92,246,0.25), transparent 40%),
+        radial-gradient(circle at 80% 30%, rgba(99,102,241,0.2), transparent 40%),
+        linear-gradient(180deg, #0b1020 0%, #050816 100%);
+}
+
+/* Subtle overlay depth */
+.landing-header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.02),
+        rgba(255,255,255,0.0)
+    );
+
+    pointer-events: none;
+}
+/* =========================================
+   HERO LINES CANVAS
+========================================= */
+
+#heroLines {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+/* =========================================
+   APP – PREMIUM BACKGROUND (LANDING STYLE)
+========================================= */
+
+.app-body {
+    background:
+        radial-gradient(circle at 20% 20%, rgba(139,92,246,0.18), transparent 40%),
+        radial-gradient(circle at 80% 30%, rgba(99,102,241,0.15), transparent 40%),
+        linear-gradient(180deg, #0b1020 0%, #050816 100%);
+}
+
+/* Subtle overlay depth */
+.app-body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.02),
+        rgba(255,255,255,0.0)
+    );
+}
+/* =========================================
+   APP HEADER – REFINED
+========================================= */
+
+.app-header {
+    background: transparent !important;
+    height: auto !important;
+    padding: 60px 0 20px;
+}
+
+.app-title {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-weight: 800;
+
+    text-shadow:
+        0 0 40px rgba(139,92,246,0.25),
+        0 0 80px rgba(99,102,241,0.15);
+}
+/* =========================================
+   APP – CENTER LAYOUT REFINEMENT
+========================================= */
+
+.app-body .app-main {
+    padding-top: 40px !important;
+    padding-bottom: 120px;
+}
+/* =========================================
+   HERO – CLEAN LIVE VERSION STYLE
+========================================= */
+
+.hero-title {
+    font-size: clamp(3.5rem, 6vw, 5rem);
+    font-weight: 800;
+    letter-spacing: 2px;
+
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    background-clip: initial !important;
+    -webkit-text-fill-color: initial !important;
+    color: #ffffff !important;
+
+    text-shadow:
+        0 10px 40px rgba(139,92,246,0.25);
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    opacity: 0.8;
+}
+
+.hero-description {
+    max-width: 700px;
+    margin: 0 auto 40px;
+    line-height: 1.6;
+    opacity: 0.9;
+}
+/* =========================================
+   APP – HERO STYLE LIKE LANDING
+========================================= */
+
+.app-header {
+    height: auto !important;
+    padding: 140px 20px 80px !important;
+    text-align: center;
+
+    background:
+        radial-gradient(circle at 20% 20%, rgba(139,92,246,0.25), transparent 40%),
+        radial-gradient(circle at 80% 30%, rgba(99,102,241,0.2), transparent 40%),
+        linear-gradient(180deg, #0b1020 0%, #050816 100%) !important;
+
+    box-shadow: none !important;
+}
+
+.app-header .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.app-header h1 {
+    font-size: clamp(3.5rem, 6vw, 5rem);
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #ffffff;
+
+    text-shadow:
+        0 10px 40px rgba(139,92,246,0.25);
+}
+/* =========================================
+   APP HERO SUBTITLE
+========================================= */
+
+.app-subtitle {
+    font-size: 1.2rem;
+    opacity: 0.8;
+    margin-top: 20px;
+}
+/* =========================================
+   APP – TOOLS CLOSER TO HERO
+========================================= */
+
+.app-body .app-main {
+    margin-top: -40px;
+    padding-top: 0 !important;
+}
+/* =========================================
+   APP HEADER – LEFT ALIGN (LIVE STYLE)
+========================================= */
+
+.app-header {
+    text-align: left !important;
+    padding: 60px 80px 40px !important;
+    position: relative;
+}
+
+.app-header .container {
+    align-items: flex-start !important;
+}
+
+.app-header h1 {
+    margin: 0;
+}
+
+.app-subtitle {
+    margin-top: 12px;
+}
+
+/* =========================================
+   APP TOOLS – STACKED LIKE LIVE VERSION
+========================================= */
+
+.app-body .feature-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 30px;
+    max-width: 700px;
+    margin: 40px auto 100px;
+}
+/* =========================================
+   APP – TOOL SPACING UNDER HEADER
+========================================= */
+
+.app-body .app-main {
+    margin-top: 60px !important;
+}
+/* =========================================
+   APP – SOFT SEPARATION
+========================================= */
+
+.app-body .app-main {
+    margin-top: 80px !important;
+    padding-top: 20px;
+}
+/* =========================================
+   APP HEADER – SUBTLE ANIMATED GLOW
+========================================= */
+
+.app-header::after {
+    content: "";
+    position: absolute;
+    inset: -20%;
+    background: radial-gradient(
+        circle at 30% 40%,
+        rgba(139,92,246,0.25),
+        transparent 60%
+    );
+    animation: glowDrift 18s ease-in-out infinite alternate;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes glowDrift {
+    0% {
+        transform: translateX(-5%) translateY(-5%);
+    }
+    100% {
+        transform: translateX(5%) translateY(5%);
+    }
+}
+/* =========================================
+   STICKY HEADER – PREMIUM MODE
+========================================= */
+
+.app-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+/* Beim Scroll leicht kompakter */
+.app-header.scrolled {
+    padding: 30px 80px 20px !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+#appHeroLines {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+/* =========================================
+   STICKY APP HEADER
+========================================= */
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.app-header.scrolled {
+  background: rgba(10, 15, 35, 0.85);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+/* =========================================
+   FIX HERO CANVAS LAYERING
+========================================= */
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+#appHeroLines {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.header-inner {
+  position: relative;
+  z-index: 2;
+}
+/* =========================================
+   STICKY HEADER SCROLL BLUR FIX
+========================================= */
+
+.app-header.scrolled {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(15, 20, 40, 0.75);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+/* =========================================
+   APP HEADER – LIVE STYLE REFINEMENT
+   Append Only
+========================================= */
+
+.app-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: 260px;
+    background: linear-gradient(
+        90deg,
+        #5b3cc4 0%,
+        #2a1e64 40%,
+        #0b1228 100%
+    );
+    overflow: hidden;
+}
+
+/* Smooth bottom fade */
+.app-header::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0) 0%,
+        #050816 100%
+    );
+    pointer-events: none;
+}
+/* =========================================
+   HERO CANVAS VISIBILITY BOOST
+========================================= */
+
+#appHeroLines {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0.6;
+}
+
+.header-inner {
+    position: relative;
+    z-index: 2;
+}
+/* =========================================
+   APP HEADER – STABILIZER PATCH (APPEND ONLY)
+   Fix for flicker / resize / sticky conflicts
+========================================= */
+
+/* Header Height stabilisieren */
+.app-header {
+    height: 260px !important;
+    min-height: 260px !important;
+    overflow: hidden !important;
+}
+
+/* Canvas exakt an Header binden */
+#appHeroLines {
+    height: 260px !important;
+    width: 100% !important;
+    position: absolute !important;
+    inset: 0 !important;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Header Content über Canvas */
+.header-inner {
+    position: relative;
+    z-index: 2;
+}
+
+/* Sticky stabilisieren */
+.app-header {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+}
+
+/* Scroll Blur sauber */
+.app-header.scrolled {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(15, 20, 40, 0.85) !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+/* =========================================
+   GLOBAL RESET FIX
+========================================= */
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+/* =========================================
+   FIX DARK OVERLAY OVER HEADER
+========================================= */
+
+.app-body::before {
+    z-index: -1 !important;
+}
+/* =========================================
+   REMOVE OLD HEADER OVERLAY
+========================================= */
+
+.app-header::before,
+.app-header::after {
+    display: none !important;
+}
+/* =========================================
+   HEADER TOP CLEAN FIX
+========================================= */
+
+.app-header {
+    border-top: none !important;
+}
+/* =========================================
+   FINAL HEADER NETWORK FIX
+========================================= */
+
+/* Header final stabilisieren */
+.app-header {
+    position: sticky !important;
+    top: 0 !important;
+    height: 260px !important;
+    min-height: 260px !important;
+    overflow: hidden !important;
+}
+
+/* Korrektes Canvas für headerNetwork */
+#headerNetwork {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 260px !important;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Inhalt über Canvas */
+.header-inner {
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+/* Sicherstellen, dass Titel sichtbar ist */
+.app-header h1 {
+    position: relative;
+    z-index: 3;
+    color: #ffffff;
+}
+/* =========================================
+   LANDING HERO – COMPACT REFINEMENT
+   Append Only
+========================================= */
+
+.landing-header {
+    min-height: 50vh !important;   /* vorher war es effektiv fast 100vh */
+    padding-top: 100px !important;
+    padding-bottom: 60px !important;
+}
+
+.hero-title {
+    font-size: clamp(3rem, 5vw, 4rem) !important;
+}
+
+.hero-subtitle {
+    margin-bottom: 25px !important;
+}
+
+.hero-description {
+    margin-bottom: 30px !important;
+}
+/* =========================================
+   HERO LINES – HIGH RES BOOST
+========================================= */
+
+#heroLines,
+#appHeroLines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.9;          /* heller */
+  filter: contrast(1.1); /* crisp */
+  z-index: 1;
+}
+
+.header-inner,
+.hero-container {
+  position: relative;
+  z-index: 2;
+}
+/* =========================================
+   PAGE TRANSITION – SMOOTH FADE
+========================================= */
+
+body {
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+body.page-leaving {
+  opacity: 0;
+}
+/* =========================================
+   TOOL PAGE MODE – LIVE VERSION STYLE
+========================================= */
+
+.tool-section {
+  display: none;
+  position: relative;
+  max-width: 900px;
+  margin: 60px auto 120px;
+}
+
+.tool-section.active {
+  display: block;
+}
+
+body.tool-open #featureGrid {
+  display: none;
+}
+/* =========================================
+   TOOL PAGE MODE – LIVE VERSION EXACT
+========================================= */
+
+/* Standard: Tools versteckt */
+.tool-section {
+  display: none;
+  max-width: 900px;
+  margin: 120px auto;
+}
+
+/* Wenn Tool offen */
+body.tool-open .tool-section.active {
+  display: block;
+}
+
+/* Tool Cards verschwinden */
+body.tool-open #featureGrid {
+  display: none;
+}
+
+/* App-Layout reset wenn Tool offen */
+body.tool-open .app-main {
+  display: block !important;
+  padding-top: 40px !important;
+}
+/* =========================================
+   FINAL TOOL PAGE MODE (LIVE EXACT)
+========================================= */
+
+/* Standard */
+.tool-section {
+  display: none;
+  max-width: 900px;
+  margin: 60px auto 120px;
+}
+
+/* Wenn Tool offen */
+body.tool-open .tool-section.active {
+  display: block;
+}
+
+/* ALLES außer Header ausblenden */
+body.tool-open #featureGrid,
+body.tool-open .officio-positioning,
+body.tool-open .app-stage {
+  display: none !important;
+}
+
+/* Layout reset */
+body.tool-open .app-main {
+  display: block !important;
+  padding-top: 40px !important;
+}
+/* =========================================
+   TOOL PAGE CONTROL – FIXED
+========================================= */
+
+/* Standard: alles versteckt */
+.tool-page {
+  display: none;
+  min-height: 100vh;
+  padding: 120px 24px 120px;
+}
+
+/* Nur aktive Seite sichtbar */
+.tool-page.active {
+  display: block;
+}
+
+/* Feature Grid ausblenden wenn Tool offen */
+body.tool-active #featureGrid {
+  display: none;
+}
+/* =========================================
+   OFFICIO 1.1.0.1 – GLOBAL TOOL CENTERING
+   APPEND ONLY – DO NOT MODIFY EXISTING CSS
+========================================= */
+
+/* Tool Container Layout */
+body.tool-open .tool-section {
+  display: none;
+}
+
+body.tool-open .tool-section.active {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 60px 20px 100px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Inner Tool Content Wrapper */
+body.tool-open .tool-section.active > * {
+  width: 100%;
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+/* Clean vertical spacing */
+body.tool-open .tool-section.active h1,
+body.tool-open .tool-section.active h2 {
+  margin-bottom: 24px;
+}
+
+body.tool-open .tool-section.active textarea,
+body.tool-open .tool-section.active input,
+body.tool-open .tool-section.active select {
+  width: 100%;
+}
+
+/* Optional: smoother feel */
+.tool-section {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+body.tool-open .tool-section.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+body.tool-open .tool-section:not(.active) {
+  opacity: 0;
+  transform: translateY(10px);
+}
+/* =========================================
+   OFFICIO 1.1.0.1 – FINAL GLOBAL CENTER FIX
+   FORCE OVERRIDE – APPEND AT VERY END
+========================================= */
+
+/* Tool Default Reset */
+.tool-section {
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Wenn Tool aktiv (egal ob tool-active oder tool-open) */
+body.tool-active .tool-section.active,
+body.tool-open .tool-section.active {
+
+  display: block !important;
+
+  width: 100% !important;
+  max-width: 1000px !important;
+
+  margin-left: auto !important;
+  margin-right: auto !important;
+
+  padding: 80px 24px 120px !important;
+
+  box-sizing: border-box !important;
+}
+
+/* Feature Grid immer ausblenden wenn Tool offen */
+body.tool-active #featureGrid,
+body.tool-open #featureGrid {
+  display: none !important;
+}
+
+/* App Main neutralisieren */
+body.tool-active .app-main,
+body.tool-open .app-main {
+  display: block !important;
+  padding-top: 40px !important;
+}
+
+/* Inputs full width */
+.tool-section.active textarea,
+.tool-section.active input,
+.tool-section.active select {
+  width: 100% !important;
+}
+/* =========================================
+   OFFICIO 1.1.0.1 – STRUCTURAL CENTER FIX
+   LEVEL: MAIN CONTAINER
+========================================= */
+
+/* Main Bereich zentrieren */
+.app-main {
+  width: 100%;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+}
+
+/* Tool Container */
+.tool-section.active {
+  width: 100% !important;
+  max-width: 1000px !important;
+  margin: 0 auto !important;
+  padding: 80px 24px 120px !important;
+  box-sizing: border-box;
+}
+
+/* FeatureGrid ebenfalls sauber zentriert */
+#featureGrid {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Sicherheits-Reset gegen alte Regeln */
+.tool-section {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+/* =========================================
+   OFFICIO 1.1.0.1 – REAL CENTER FIX
+   FIXES GRID CONFLICT
+========================================= */
+
+/* Wenn ein Tool geöffnet ist → Grid deaktivieren */
+body.tool-active .main-content,
+body.tool-open .main-content {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+/* Aktives Tool sauber begrenzen */
+body.tool-active .tool-section.active,
+body.tool-open .tool-section.active {
+  width: 100%;
+  max-width: 1000px;
+  margin: 80px auto 120px auto;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+/* =========================================
+   OFFICIO – TOOL ONLY CENTER FIX
+   (Landing bleibt unberührt)
+========================================= */
+
+/* Nur wenn ein Tool aktiv ist */
+body.tool-active .tool-section.active,
+body.tool-open .tool-section.active {
+
+  width: 100%;
+  max-width: 1000px;
+
+  margin-left: auto !important;
+  margin-right: auto !important;
+
+  padding-left: 24px;
+  padding-right: 24px;
+
+  box-sizing: border-box;
+}
+
+/* Falls ein Grid oder Flex das blockiert */
+body.tool-active .main-content,
+body.tool-open .main-content {
+  display: block !important;
+}
+/* =========================================
+   OFFICIO – HARD TOOL CENTER FIX
+   (Landing bleibt unverändert)
+========================================= */
+
+/* Nur wenn Tool offen */
+body.tool-active .app-main,
+body.tool-open .app-main {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+/* Tool selbst */
+body.tool-active .tool-section.active,
+body.tool-open .tool-section.active {
+  width: 100%;
+  max-width: 1000px;
+  margin: 60px auto 120px auto;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+/* =========================================
+   OFFICIO – STABLE TOOL CENTER (NO FLEX)
+========================================= */
+
+/* Nur aktives Tool */
+body.tool-active .tool-section.active,
+body.tool-open .tool-section.active {
+
+  width: 90%;
+  max-width: 1100px;
+
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-top: 60px;
+  margin-bottom: 120px;
+
+  box-sizing: border-box;
+}
+/* =========================================
+   OFFICIO – FINAL TOOL STRUCTURE FIX
+========================================= */
+
+/* 1️⃣ Grid deaktivieren wenn Tool offen */
+body.tool-active .main-content,
+body.tool-open .main-content {
+  display: block !important;
+}
+
+/* 2️⃣ Tool sauber zentrieren */
+body.tool-active .tool-section.active,
+body.tool-open .tool-section.active {
+
+  width: 100%;
+  max-width: 1100px;
+
+  margin: 40px auto 0 auto;
+
+  box-sizing: border-box;
+}
+
+/* 3️⃣ Tool Höhe fixieren (kein Scroll innen) */
+body.tool-active .tool-section.active,
+body.tool-open .tool-section.active {
+  min-height: calc(100vh - 220px);
+  overflow: hidden;
+}
+/* =========================================
+   OFFICIO – TOOL VIEW FIX (INNER TOOLS)
+========================================= */
+
+/* Wenn ein Tool geöffnet ist → Layout neutralisieren */
+body.tool-active .main-content,
+body.tool-open .main-content {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+}
+
+/* Aktives Tool exakt mittig */
+body.tool-active .tool-section.active,
+body.tool-open .tool-section.active {
+
+  width: 100%;
+  max-width: 1100px;
+
+  margin: 40px auto 0 auto;
+
+  box-sizing: border-box;
+}
+
+/* Tool Höhe fixieren (kein Scroll IM Tool selbst) */
+body.tool-active .tool-section.active,
+body.tool-open .tool-section.active {
+  height: calc(100vh - 200px);
+  overflow: hidden;
+}
+/* =========================================
+   OFFICIO – TOOL VIEW (A MODE)
+   - Tool zentriert
+   - Kein Scroll im Tool selbst
+   - Seite darf scrollen
+========================================= */
+
+/* Grid deaktivieren NUR wenn Tool offen */
+body.tool-active .main-content,
+body.tool-open .main-content {
+  display: block !important;
+}
+
+/* Tool horizontal zentrieren */
+body.tool-active .tool-section.active,
+body.tool-open .tool-section.active {
+
+  width: 100%;
+  max-width: 1100px;
+
+  margin: 40px auto 80px auto;
+
+  box-sizing: border-box;
+}
+
+/* Kein interner Scroll im Tool */
+body.tool-active .tool-section.active,
+body.tool-open .tool-section.active * {
+  overflow: visible;
+}
+/* =========================================
+   OFFICIO – REAL TOOL CENTER FIX
+   (zentriert .tool-wrapper)
+========================================= */
+
+/* Tool-Seiten Full Width lassen */
+.tool-page {
+  width: 100%;
+}
+
+/* ECHTER Content Container */
+.tool-page .tool-wrapper {
+  width: 100%;
+  max-width: 1100px;
+  margin: 40px auto 80px auto;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+/* =========================================
+   OFFICIO – TOOL TOP SPACING FIX
+========================================= */
+
+/* Abstand zwischen Header und Tool verkleinern */
+.tool-page .tool-wrapper {
+  margin-top: -40px !important;  /* vorher 40px */
+}
+
+/* Falls tool-page selbst Padding erzeugt */
+.tool-page {
+  padding-top: 0 !important;
+}
+/* =========================================
+   OFFICIO – FULL TOOL VIEW (NO SCROLL)
+========================================= */
+
+/* Tool-Seite nimmt restliche Viewport-Höhe */
+.tool-page {
+  height: calc(100vh - 120px); /* Header ca. 160px */
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+/* Tool Wrapper füllt Höhe */
+.tool-page .tool-wrapper {
+  width: 100%;
+  max-width: 1100px;
+
+  height: 100%;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* Tool Card flexibel */
+.tool-card {
+  flex: 0 0 auto;
+}
+
+/* Output darf sich anpassen */
+.tool-output {
+  flex: 1;
+  overflow: auto;
+}
+/* =========================================
+   OFFICIO – REMOVE BOTTOM EMPTY SPACE
+========================================= */
+
+/* Kein extra Abstand unter Tool */
+.tool-page .tool-wrapper {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* Output keine Mindesthöhe */
+.tool-output {
+  min-height: auto !important;
+  margin-bottom: 0 !important;
+}
+
+/* Tool-Seite keine zusätzliche Höhe erzwingen */
+.tool-page {
+  height: auto !important;
+  min-height: auto !important;
+}
+/* =========================================
+   OFFICIO – REMOVE STICKY HEADER
+========================================= */
+
+.app-header {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  width: 100%;
+}
+/* =========================================
+   OFFICIO – REMOVE FORCED TOOL HEIGHT
+========================================= */
+
+/* Tool darf nur so hoch sein wie Content */
+.tool-page {
+  height: auto !important;
+  min-height: auto !important;
+}
+
+/* Main darf nichts erzwingen */
+.app-main {
+  height: auto !important;
+  min-height: auto !important;
+}
+
+/* Wrapper ebenfalls */
+.tool-page .tool-wrapper {
+  height: auto !important;
+}
+/* =========================================
+   OFFICIO – REDUCE HEADER BOTTOM SPACE
+========================================= */
+
+/* Header selbst kompakter */
+.app-header {
+  padding-bottom: 20px !important;
+}
+
+/* Container im Header enger */
+.app-header .container {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+/* =========================================
+   OFFICIO – PREMIUM COMPACT HEADER
+========================================= */
+
+.app-header {
+  padding-top: 70px !important;
+  padding-bottom: 35px !important;
+  min-height: auto !important;
+}
+
+/* Container enger */
+.app-header .container {
+  padding: 0 !important;
+  margin: 0 auto !important;
+}
+
+/* Titel etwas kompakter */
+.app-header h1 {
+  font-size: 42px !important;
+  margin-bottom: 6px !important;
+}
+
+/* Subtitle enger */
+.app-subtitle {
+  font-size: 14px !important;
+  margin-bottom: 0 !important;
+  opacity: 0.8;
+}
+
+/* Abstand zum Tool minimieren */
+.tool-page .tool-wrapper {
+  margin-top: 10px !important;
+}
+/* =========================================
+   OFFICIO – MOVE TOOL UP
+========================================= */
+
+/* Tool-Seite selbst keinen Extra-Abstand */
+.tool-page {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* Wrapper enger */
+.tool-page .tool-wrapper {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* Header im Tool kompakter */
+.tool-header {
+  margin-top: 10px !important;
+  margin-bottom: 20px !important;
+}
+
+/* Back Button näher an Header */
+.back-to-start {
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+}
+/* =========================================
+   OFFICIO – REMOVE TOP SPACE IN TOOL VIEW
+========================================= */
+
+/* Nur wenn ein Tool offen ist */
+.tool-page {
+  margin-top: 0 !important;
+}
+
+body.tool-active .app-main,
+body.tool-open .app-main {
+  padding-top: 0 !important;
+}
+/* =========================================
+   OFFICIO – PREMIUM AI UI UPGRADE
+   Synthesia Inspired Clean Look
+========================================= */
+
+
+/* ------------------------------
+   1. CONTENT WIDTH (Premium Feel)
+------------------------------ */
+
+.tool-page .tool-wrapper {
+  max-width: 880px !important;   /* schmaler = hochwertiger */
+  margin: 0 auto !important;
+}
+
+
+/* ------------------------------
+   2. TOOL HEADER – Clean Hierarchy
+------------------------------ */
+
+.tool-header h2 {
+  font-size: 34px !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.5px;
+}
+
+.tool-description {
+  font-size: 15px !important;
+  opacity: 0.65 !important;
+  margin-top: 6px !important;
+}
+
+
+/* ------------------------------
+   3. TOOL CARD – Premium Glass
+------------------------------ */
+
+.tool-card {
+  background: rgba(255,255,255,0.04) !important;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.45);
+  border-radius: 20px;
+  padding: 32px;
+  transition: all 0.25s ease;
+}
+
+.tool-card:hover {
+  box-shadow: 0 35px 80px rgba(0,0,0,0.55);
+}
+
+
+/* ------------------------------
+   4. INPUTS – Cleaner Modern AI Look
+------------------------------ */
+
+.tool-textarea,
+.tool-input,
+.tool-select {
+  background: rgba(255,255,255,0.03) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  border-radius: 14px !important;
+  padding: 14px 16px !important;
+  transition: all 0.2s ease;
+}
+
+.tool-textarea:focus,
+.tool-input:focus,
+.tool-select:focus {
+  border: 1px solid rgba(124,92,255,0.6) !important;
+  box-shadow: 0 0 0 3px rgba(124,92,255,0.15);
+}
+
+
+/* ------------------------------
+   5. PRIMARY BUTTON – SaaS Glow
+------------------------------ */
+
+.primary-btn {
+  border-radius: 14px !important;
+  font-weight: 600;
+  box-shadow: 0 10px 30px rgba(124,92,255,0.35);
+  transition: all 0.2s ease;
+}
+
+.primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 45px rgba(124,92,255,0.55);
+}
+
+
+/* ------------------------------
+   6. BACK BUTTON – Cleaner
+------------------------------ */
+
+.back-to-start {
+  background: none !important;
+  border: none !important;
+  color: rgba(255,255,255,0.6) !important;
+  font-size: 14px;
+  padding: 0 !important;
+}
+
+.back-to-start:hover {
+  color: rgba(255,255,255,0.9) !important;
+}
+
+
+/* ------------------------------
+   7. OUTPUT – Softer Section
+------------------------------ */
+
+.tool-output {
+  background: rgba(255,255,255,0.02);
+  border-radius: 16px;
+  padding: 24px;
+  margin-top: 24px;
+}
+
+
+/* ------------------------------
+   8. GLOBAL SPACING TUNE
+------------------------------ */
+
+.tool-page {
+  padding-top: 0 !important;
+}
+
+.app-main {
+  padding-top: 20px !important;
+}
+/* =========================================
+   OFFICIO – PAGE TRANSITIONS
+========================================= */
+
+.tool-page {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.35s ease;
+  display: none;
+}
+
+.tool-page.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Landing Fade */
+#featureGrid {
+  transition: opacity 0.3s ease;
+}
+
+#featureGrid.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Tool Open Layout */
+body.tool-open #featureGrid {
+  display: none;
+}
+/* =========================================
+   OFFICIO – 2026 PREMIUM AI DESIGN SYSTEM
+========================================= */
+
+
+/* ==============================
+   1. GLOBAL DEPTH & BACKGROUND
+============================== */
+
+body {
+  background: radial-gradient(
+      circle at 50% 30%,
+      rgba(124, 92, 255, 0.08),
+      transparent 60%
+    ),
+    linear-gradient(120deg, #0c1022, #0b1430 60%, #0e163a);
+}
+
+
+/* Subtle Glow behind Tool */
+.tool-page::before {
+  content: "";
+  position: absolute;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(
+    circle,
+    rgba(124, 92, 255, 0.18),
+    transparent 70%
+  );
+  filter: blur(140px);
+  top: 200px;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+
+/* ==============================
+   2. HEADER – CLEAN PREMIUM
+============================== */
+
+.app-header {
+  padding: 40px 0 20px 0 !important;
+}
+
+.app-header h1 {
+  font-size: 44px !important;
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+
+.app-subtitle {
+  font-size: 14px !important;
+  opacity: 0.55;
+  font-weight: 300;
+}
+
+
+/* ==============================
+   3. TOOL WRAPPER WIDTH
+============================== */
+
+.tool-page .tool-wrapper {
+  max-width: 880px !important;
+  margin: 0 auto !important;
+  position: relative;
+  z-index: 1;
+}
+
+
+/* ==============================
+   4. TOOL HEADER HIERARCHY
+============================== */
+
+.tool-header h2 {
+  font-size: 34px;
+  font-weight: 600;
+  letter-spacing: -0.4px;
+  margin-bottom: 6px;
+}
+
+.tool-description {
+  font-size: 15px;
+  opacity: 0.6;
+}
+
+
+/* ==============================
+   5. TOOL CARD – GLASS LAYER
+============================== */
+
+.tool-card {
+  background: rgba(255, 255, 255, 0.04) !important;
+  backdrop-filter: blur(22px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.45),
+    inset 0 0 40px rgba(255, 255, 255, 0.02);
+  transition: all 0.3s ease;
+}
+
+.tool-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 35px 80px rgba(0, 0, 0, 0.55),
+    inset 0 0 60px rgba(255, 255, 255, 0.03);
+}
+
+
+/* ==============================
+   6. INPUTS – MODERN AI LOOK
+============================== */
+
+.tool-textarea,
+.tool-input,
+.tool-select {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid rgba(255, 255, 255, 0.07) !important;
+  border-radius: 14px !important;
+  padding: 14px 16px !important;
+  transition: all 0.2s ease;
+}
+
+.tool-textarea:focus,
+.tool-input:focus,
+.tool-select:focus {
+  border: 1px solid rgba(124, 92, 255, 0.6) !important;
+  box-shadow: 0 0 0 3px rgba(124, 92, 255, 0.15);
+}
+
+
+/* ==============================
+   7. PRIMARY BUTTON – PREMIUM GLOW
+============================== */
+
+.primary-btn {
+  border-radius: 14px !important;
+  font-weight: 600;
+  background: linear-gradient(
+    90deg,
+    #5f9cff,
+    #7c5cff,
+    #c65bff
+  ) !important;
+  box-shadow: 0 12px 35px rgba(124, 92, 255, 0.4);
+  transition: all 0.2s ease;
+}
+
+.primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 50px rgba(124, 92, 255, 0.6);
+}
+
+
+/* ==============================
+   8. BACK BUTTON – CLEAN LINK STYLE
+============================== */
+
+.back-to-start {
+  background: none !important;
+  border: none !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+  font-size: 14px;
+  padding: 0 !important;
+}
+
+.back-to-start:hover {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+
+/* ==============================
+   9. OUTPUT SECTION – SOFT PANEL
+============================== */
+
+.tool-output {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 18px;
+  padding: 24px;
+  margin-top: 28px;
+}
+
+
+/* ==============================
+   10. MICRO ANIMATION
+============================== */
+
+.tool-page {
+  animation: fadeInTool 0.4s ease forwards;
+}
+
+@keyframes fadeInTool {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* =========================================
+   OFFICIO – CONTROLLED LEFT ALIGN HEADER
+========================================= */
+
+.app-header .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 200px;   /* Abstand vom Rand */
+  padding-right: 80px;
+  box-sizing: border-box;
+}
+/* =========================================
+   OFFICIO – UNIFIED BACKGROUND
+========================================= */
+
+/* Ein einheitlicher Hintergrund für die gesamte Seite */
+body {
+  background: linear-gradient(
+    120deg,
+    #0e1224,
+    #111935 60%,
+    #0f1a3d
+  ) !important;
+}
+
+/* Header transparent machen */
+.app-header {
+  background: transparent !important;
+}
+
+/* Main ebenfalls transparent */
+.app-main {
+  background: transparent !important;
+}
+
+/* Falls irgendwo noch Section-Backgrounds gesetzt sind */
+section {
+  background: transparent !important;
+}
+/* =========================================
+   OFFICIO – FULL PAGE UNIFIED GRADIENT
+========================================= */
+
+/* Globaler Verlauf für die ganze Seite */
+html, body {
+  min-height: 100%;
+  background: linear-gradient(
+    120deg,
+    #0e1224,
+    #111935 60%,
+    #0f1a3d
+  ) !important;
+  background-attachment: fixed;
+}
+
+/* Entfernt alle Section-Overlays */
+.app-header,
+.app-main,
+section,
+.feature-grid,
+.tool-page {
+  background: transparent !important;
+}
+
+/* Entfernt evtl. Fade-Overlays */
+.app-header::after,
+body::after,
+section::after {
+  display: none !important;
+}
+/* =========================================
+   OFFICIO – FINAL BACKGROUND FIX
+========================================= */
+
+/* Kein horizontaler Overflow */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* EIN globaler Hintergrund */
+html {
+  background: linear-gradient(
+    120deg,
+    #100e24,
+    #111935 60%,
+    #0f1a3d
+  );
+}
+
+/* Body transparent */
+body {
+  background: transparent !important;
+}
+
+/* Alle Sections transparent */
+.app-header,
+.app-main,
+section,
+.feature-grid,
+.tool-page {
+  background: transparent !important;
+}
+
+/* Alle Pseudo-Overlays entfernen */
+.app-header::before,
+.app-header::after,
+body::before,
+body::after {
+  display: none !important;
+}
+/* ============================= */
+/* GLOBAL BACKGROUND NETWORK */
+/* ============================= */
+
+#globalNetwork {
+  position: fixed;
+  inset: 0;
+  z-index: -1;           /* GANZ nach hinten */
+  pointer-events: none;
+}
+
+/* Header über Canvas */
+.app-header {
+  position: relative;
+  z-index: 2;
+}
+
+/* Main Content über Canvas */
+.app-main {
+  position: relative;
+  z-index: 2;
+}
+/* GLOBAL NETWORK BACKGROUND */
+#globalNetwork {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ALLE CONTENT ELEMENTE DARÜBER */
+.app-header,
+.app-main {
+  position: relative;
+  z-index: 2;
+}
+
+/* TOOL CARDS SOLID BACKGROUND */
+.feature-card,
+.tool-card,
+.tool-output {
+  position: relative;
+  z-index: 3;
+  background: linear-gradient(
+    135deg,
+    rgba(18, 28, 55, 0.95),
+    rgba(10, 18, 40, 0.95)
+  );
+  backdrop-filter: none;
+}

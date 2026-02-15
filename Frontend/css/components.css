@@ -1,0 +1,348 @@
+/* =========================================
+   OFFICIO – COMPONENTS
+   (UI ELEMENTS ONLY)
+========================================= */
+
+
+/* ==================================================
+   BUTTONS – GLOBAL STYLE
+================================================== */
+
+button {
+    background: linear-gradient(135deg,#6b4ce6,#9c7af0);
+    color: #ffffff;
+    border: none;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 18px;
+    cursor: pointer;
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        opacity 0.15s ease;
+}
+
+button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+}
+
+button:active {
+    transform: scale(0.97);
+}
+
+
+/* ==================================================
+   FEATURE CARDS
+================================================== */
+
+.feature-card {
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(255,255,255,0.05);
+    backdrop-filter: blur(8px);
+    border-radius: 20px;
+    padding: 34px 36px;
+    cursor: pointer;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+    transition:
+        box-shadow 0.25s ease,
+        transform 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(139, 92, 246, 0.45);
+    box-shadow:
+        0 0 0 1px rgba(139, 92, 246, 0.35),
+        0 18px 45px rgba(139, 92, 246, 0.35);
+}
+
+.feature-card h3 {
+    min-height: 3.2em;
+    display: flex;
+    align-items: center;
+    line-height: 1.3;
+    font-size: 18px;
+}
+
+.feature-card p {
+    margin-top: 10px;
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+
+/* ==================================================
+   PURPOSE CARD (INFO)
+================================================== */
+
+.purpose-card {
+    background: rgba(15, 23, 42, 0.85);
+    border-radius: 20px;
+    padding: 34px 36px;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+    transition:
+        box-shadow 0.25s ease,
+        transform 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.purpose-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(139, 92, 246, 0.45);
+    box-shadow:
+        0 0 0 1px rgba(139, 92, 246, 0.35),
+        0 22px 55px rgba(139, 92, 246, 0.45);
+}
+
+
+/* ==================================================
+   GENERIC INPUTS (NON-TOOL SPECIFIC)
+================================================== */
+
+input,
+select {
+    border-radius: 14px;
+    font-size: 14px;
+    padding: 12px 16px;
+}
+
+
+/* ==================================================
+   LANGUAGE SELECTOR (HEADER)
+================================================== */
+
+#languageSelect {
+    appearance: none;
+    padding: 10px 42px 10px 16px;
+    border-radius: 999px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+
+    background: linear-gradient(135deg, #6b4ce6, #9c7af0);
+    color: #ffffff;
+
+    text-align: center;
+    text-align-last: center;
+
+    box-shadow:
+        0 10px 25px rgba(107, 76, 230, 0.45),
+        inset 0 0 0 1px rgba(255,255,255,0.18);
+}
+
+#languageSelect:hover {
+    transform: translateY(-1px);
+}
+
+#languageSelect option {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+
+
+/* ==================================================
+   THEME TOGGLE
+================================================== */
+
+.theme-toggle {
+    position: fixed;
+    right: 28px;
+    bottom: 28px;
+    z-index: 9999;
+}
+
+
+/* ==================================================
+   BACK BUTTON
+================================================== */
+
+.back-to-start {
+    background: linear-gradient(135deg,#60a5fa,#3b82f6);
+    padding: 10px 22px;
+    border-radius: 999px;
+    font-size: 14px;
+}
+
+
+/* ==================================================
+   POPUP OVERLAY
+================================================== */
+
+#officio-popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+}
+
+.officio-popup {
+    background: linear-gradient(135deg, #0f172a, #020617);
+    color: #ffffff;
+    padding: 32px;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 420px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+}
+
+.officio-popup-button {
+    margin-top: 20px;
+    padding: 10px 18px;
+    border-radius: 10px;
+    border: none;
+    background: #2563eb;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.officio-popup-button:hover {
+    background: #1d4ed8;
+}
+
+.officio-popup-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.officio-popup-close:hover {
+    opacity: 1;
+}
+/* =========================================
+   OFFICIO – CARD DEPTH ENHANCEMENT
+   Append Only
+========================================= */
+
+.app-body .feature-card {
+    position: relative;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.app-body .feature-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+        145deg,
+        rgba(255,255,255,0.05),
+        rgba(255,255,255,0)
+    );
+    pointer-events: none;
+}
+
+.app-body .feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 80px rgba(109,74,255,0.35);
+}
+/* =========================================
+   LANDING CTA BUTTON
+========================================= */
+
+.cta-button {
+    padding: 16px 38px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+
+    background: linear-gradient(135deg, #6b4ce6, #9c7af0);
+    color: #fff;
+
+    box-shadow: 0 12px 30px rgba(107,76,230,0.45);
+    transition: all 0.25s ease;
+}
+
+.cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 40px rgba(107,76,230,0.6);
+}
+
+.cta-button:active {
+    transform: scale(0.97);
+}
+/* =========================================
+   HERO TITLE PREMIUM STYLE
+========================================= */
+
+.hero-title {
+    font-size: clamp(3rem, 6vw, 4.5rem);
+    font-weight: 800;
+    letter-spacing: 1px;
+
+    text-shadow:
+        0 0 40px rgba(139,92,246,0.25),
+        0 0 80px rgba(99,102,241,0.15);
+}
+/* =========================================
+   APP – FEATURE CARDS PREMIUM
+========================================= */
+
+.app-body .feature-card {
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(12px);
+
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 20px;
+
+    transition: all 0.3s ease;
+}
+
+.app-body .feature-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(139,92,246,0.6);
+    box-shadow: 0 20px 50px rgba(139,92,246,0.15);
+}
+/* =========================================
+   APP – TOOL SECTION PREMIUM PANEL
+========================================= */
+
+.app-body .tool-section {
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(12px);
+
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 24px;
+
+    padding: 40px;
+    max-width: 900px;
+    width: 100%;
+    margin: 40px auto;
+}
+/* =========================================
+   TOOL CARDS – FADE IN EFFECT
+========================================= */
+
+.app-body .feature-card {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: toolReveal 0.8s ease forwards;
+}
+
+.app-body .feature-card:nth-child(1) { animation-delay: 0.1s; }
+.app-body .feature-card:nth-child(2) { animation-delay: 0.2s; }
+.app-body .feature-card:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes toolReveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

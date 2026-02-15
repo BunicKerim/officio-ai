@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Officio AI – App</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/animations.css" />
+  <link rel="stylesheet" href="../css/app.css" />
+</head>
+
+<body class="app-body fade-in">
+
+<!-- GLOBAL NETWORK CANVAS -->
+<canvas id="globalNetwork"></canvas>
+
+<header class="app-header">
+  <div class="container">
+    <h1>Officio AI</h1>
+    <p class="app-subtitle">
+      DEIN BESTER FREUND WENN ES UM EFFIZIENTE BÜRO-ARBEIT GEHT
+    </p>
+  </div>
+</header>
+
+<main class="app-main">
+
+  <!-- TOOL CARDS -->
+  <section id="featureGrid" class="feature-grid">
+
+    <div class="feature-card" data-tool="tool-summary">
+      <h3>📝 Zusammenfassen</h3>
+      <p>Fasse Texte oder Dateien intelligent zusammen</p>
+    </div>
+
+    <div class="feature-card" data-tool="tool-email">
+      <h3>📧 E-Mail Assistent</h3>
+      <p>Erzeuge professionelle Antworten in Sekunden</p>
+    </div>
+
+    <div class="feature-card" data-tool="tool-translate">
+      <h3>🌍 Smart Translate</h3>
+      <p>Kontextbasierte Übersetzungen mit Stilkontrolle</p>
+    </div>
+
+  </section>
+
+
+  <!-- ========================= -->
+  <!-- TOOL SUMMARY PAGE -->
+  <!-- ========================= -->
+
+  <section id="tool-summary" class="tool-page">
+
+    <button class="back-to-start">← Back to start</button>
+
+    <div class="tool-wrapper">
+
+      <div class="tool-header">
+        <h2>Summarize text</h2>
+        <p class="tool-description">
+          Paste text or upload a document and let Officio compress it intelligently.
+        </p>
+      </div>
+
+      <div class="tool-card">
+
+        <textarea 
+          id="inputText"
+          class="tool-textarea large"
+          placeholder="Paste your text here..."
+        ></textarea>
+
+        <input 
+          type="text"
+          id="summaryFocus"
+          class="tool-input"
+          placeholder="Keywords / instructions (optional)"
+        />
+
+        <button id="summarizeBtn" class="primary-btn">
+          Summarize
+        </button>
+
+      </div>
+
+      <div id="output" class="tool-output"></div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ========================= -->
+  <!-- TOOL EMAIL PAGE -->
+  <!-- ========================= -->
+
+  <section id="tool-email" class="tool-page">
+
+    <button class="back-to-start">← Back to start</button>
+
+    <div class="tool-wrapper">
+
+      <div class="tool-header">
+        <h2>Create email reply</h2>
+        <p class="tool-description">
+          Generate smart, contextual replies in seconds.
+        </p>
+      </div>
+
+      <div class="tool-card">
+
+        <textarea 
+          id="emailOriginal"
+          class="tool-textarea large"
+          placeholder="Original email here..."
+        ></textarea>
+
+        <input 
+          type="text"
+          id="emailKeywords"
+          class="tool-input"
+          placeholder="Keywords (optional)"
+        />
+
+        <select id="emailStyle" class="tool-select">
+          <option value="neutral">Neutral</option>
+          <option value="formal">Formal</option>
+          <option value="friendly">Friendly</option>
+        </select>
+
+        <button id="emailGenerateBtn" class="primary-btn">
+          Generate reply
+        </button>
+
+      </div>
+
+      <div id="emailOutput" class="tool-output"></div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ========================= -->
+  <!-- TOOL TRANSLATE PAGE -->
+  <!-- ========================= -->
+
+  <section id="tool-translate" class="tool-page">
+
+    <button class="back-to-start">← Back to start</button>
+
+    <div class="tool-wrapper">
+
+      <div class="tool-header">
+        <h2>Translate text</h2>
+        <p class="tool-description">
+          Context-aware translation with tone control.
+        </p>
+      </div>
+
+      <div class="tool-card">
+
+        <textarea 
+          id="translateInput"
+          class="tool-textarea large"
+          placeholder="Enter text to translate..."
+        ></textarea>
+
+        <div class="row-options">
+          <select id="translateTargetLang" class="tool-select">
+            <option value="de">German</option>
+            <option value="en">English</option>
+            <option value="fr">French</option>
+          </select>
+
+          <select id="translateStyle" class="tool-select">
+            <option value="neutral">Neutral</option>
+            <option value="formal">Formal</option>
+            <option value="casual">Casual</option>
+          </select>
+        </div>
+
+        <button id="translateBtn" class="primary-btn">
+          Translate
+        </button>
+
+      </div>
+
+      <textarea 
+        id="translateOutput"
+        class="tool-output"
+        readonly
+      ></textarea>
+
+    </div>
+
+  </section>
+
+</main>
+
+<!-- JS -->
+<script type="module" src="../js/main.js"></script>
+
+</body>
+</html>
