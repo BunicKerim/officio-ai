@@ -141,3 +141,32 @@ button.loading::after {
     transform: translateY(-10px);
     filter: blur(6px);
 }
+/* =========================================
+   OFFICIO – OUTPUT FADE IN
+========================================= */
+
+.output-area {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+}
+
+.output-area.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* =========================================
+   OFFICIO – SMOOTH TEXTAREA RESIZE
+========================================= */
+
+textarea {
+  transition: height 0.2s ease;
+}
+/* =========================================
+   OFFICIO – ANIMATED TITLE GRADIENT
+========================================= */
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}

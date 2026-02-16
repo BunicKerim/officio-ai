@@ -5,34 +5,37 @@ export function initHeaderNetwork(canvasId = "globalNetwork") {
 
   const ctx = canvas.getContext("2d");
 
-  /* ================= RESIZE ================= */
-
-function resize() {
-  const hero = document.querySelector(".hero-section");
-  const height = hero ? hero.offsetHeight : 600;
-
-  canvas.width = window.innerWidth;
-  canvas.height = height;
-}
-
-
-  window.addEventListener("resize", resize);
-  resize();
-
   /* ================= CONFIG ================= */
 
-  const COUNT = 80;          // Mehr Punkte = dichter
-  const MAX_DIST = 170;      // Mehr Verbindungen
+  const COUNT = 80;
+  const MAX_DIST = 170;
 
-  const points = [];
+  let points = [];
 
-  for (let i = 0; i < COUNT; i++) {
-    points.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: (Math.random() - 0.5) * 0.4,
-    });
+  /* ================= RESIZE ================= */
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = document.documentElement.scrollHeight;
+
+    generatePoints();
+  }
+
+  window.addEventListener("resize", resize);
+
+  /* ================= POINT GENERATION ================= */
+
+  function generatePoints() {
+    points = [];
+
+    for (let i = 0; i < COUNT; i++) {
+      points.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+      });
+    }
   }
 
   /* ================= ANIMATION ================= */
@@ -75,13 +78,10 @@ function resize() {
           ctx.strokeStyle = `rgba(255,255,255,${opacity * 0.35})`;
           ctx.lineWidth = 1.2;
 
-          /* Glow */
           ctx.shadowBlur = 0;
           ctx.shadowColor = "rgba(255,255,255,0.4)";
 
           ctx.stroke();
-
-          ctx.shadowBlur = 0;
         }
       }
     }
@@ -89,5 +89,8 @@ function resize() {
     requestAnimationFrame(animate);
   }
 
+  /* ================= INIT ================= */
+
+  resize();
   animate();
 }

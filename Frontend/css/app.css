@@ -657,3 +657,54 @@ body {
 main {
   background: transparent;
 }
+/* =========================================
+   OFFICIO – HERO TITLE UPGRADE
+========================================= */
+
+.app-header h1 {
+  font-size: clamp(3rem, 6vw, 5rem);
+  font-weight: 700;
+  letter-spacing: -1px;
+
+  background: linear-gradient(
+    90deg,
+    #ffffff,
+    #7aa2ff,
+    #b388ff,
+    #ffffff
+  );
+
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  animation: gradientShift 6s linear infinite;
+}
+.app-header h1 {
+  font-size: clamp(3rem, 6vw, 5rem);
+  font-weight: 800;
+  letter-spacing: -2px;
+  color: white;
+  text-shadow:
+    0 5px 20px rgba(0, 0, 0, 0.6),
+    0 0 40px rgba(80, 120, 255, 0.4);
+}
+/* =========================================
+   OFFICIO – BIGGER HERO TITLE
+========================================= */
+
+.app-header h1 {
+  font-size: clamp(8rem, 8vw, 7rem);
+  font-weight: 800;
+  line-height: 1.55;
+  letter-spacing: -2px;
+}
+/* =========================================
+   OFFICIO – HEADER ALIGN WITH TOOL CARDS
+========================================= */
+
+.app-header .container {
+  max-width: 1000px;   /* gleiche Breite wie .tool-wrapper */
+  margin: 0 auto;
+  padding: 0 3rem;     /* gleiches Innenpadding wie Tool */
+}

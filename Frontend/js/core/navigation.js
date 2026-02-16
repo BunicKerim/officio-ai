@@ -3,7 +3,6 @@
 const cards = document.querySelectorAll(".feature-card");
 const pages = document.querySelectorAll(".tool-page");
 const backBtns = document.querySelectorAll(".back-to-start");
-const featureGrid = document.getElementById("featureGrid");
 
 /* ---------- OPEN TOOL ---------- */
 
@@ -22,19 +21,20 @@ cards.forEach(card => {
     // History State setzen
     history.pushState({ tool: toolId }, "", `#${toolId}`);
 
-    // Scroll exakt zum Tool
+    // Smooth Scroll exakt zum Tool
     setTimeout(() => {
       const wrapper = selected.querySelector(".tool-wrapper");
       if (!wrapper) return;
 
-      const yOffset = -40;
-      const y = wrapper.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      const headerOffset = 60; // Abstand vom oberen Rand
+      const y = wrapper.getBoundingClientRect().top + window.scrollY - headerOffset;
 
       window.scrollTo({
         top: y,
         behavior: "smooth"
       });
-    }, 50);
+
+    }, 80);
 
   });
 });
@@ -55,7 +55,7 @@ backBtns.forEach(btn => {
 window.addEventListener("popstate", (event) => {
 
   if (event.state && event.state.tool) {
-    // Wenn Tool-State vorhanden → Tool anzeigen
+
     const selected = document.getElementById(event.state.tool);
     if (!selected) return;
 
@@ -63,8 +63,22 @@ window.addEventListener("popstate", (event) => {
     selected.classList.add("active");
     document.body.classList.add("tool-open");
 
+    // Scroll auch beim Browser-Back korrekt
+    setTimeout(() => {
+      const wrapper = selected.querySelector(".tool-wrapper");
+      if (!wrapper) return;
+
+      const headerOffset = 60;
+      const y = wrapper.getBoundingClientRect().top + window.scrollY - headerOffset;
+
+      window.scrollTo({
+        top: y,
+        behavior: "smooth"
+      });
+
+    }, 80);
+
   } else {
-    // Wenn kein Tool-State → zurück zur Startansicht
     closeTool();
   }
 
@@ -76,5 +90,9 @@ window.addEventListener("popstate", (event) => {
 function closeTool() {
   pages.forEach(p => p.classList.remove("active"));
   document.body.classList.remove("tool-open");
-  window.scrollTo({ top: 0, behavior: "smooth" });
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 }
