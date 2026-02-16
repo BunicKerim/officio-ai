@@ -1,7 +1,8 @@
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
+from pathlib import Path
+load_dotenv(dotenv_path=Path(__file__).resolve().parent / ".env")
 API_KEY = os.getenv("OPENAI_API_KEY")
 
 
@@ -9,16 +10,55 @@ from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from ai_client import call_ai
-from ai_config import ROLE
+from .ai_client import call_ai
+from .ai_config import ROLE
 
 import re
+from datetime import datetime
 import io
 import tempfile
 import os
 
 from docx import Document
 from pypdf import PdfReader
+
+# ===============================
+# SWISS DATE CONVERTER
+# ===============================
+
+def convert_to_swiss_date(text: str) -> str:
+    """
+    Konvertiert englische Datumsformate automatisch in Schweizer Format (DD.MM.YYYY)
+    """
+
+    patterns = [
+        r"(\d{1,2})\s+(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{4})",
+        r"(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2}),?\s+(\d{4})"
+    ]
+
+    months = {
+        "January":1,"February":2,"March":3,"April":4,"May":5,"June":6,
+        "July":7,"August":8,"September":9,"October":10,"November":11,"December":12
+    }
+
+    for pattern in patterns:
+        matches = re.findall(pattern, text)
+        for match in matches:
+
+            if match[0].isdigit():
+                day = int(match[0])
+                month = months[match[1]]
+                year = int(match[2])
+            else:
+                month = months[match[0]]
+                day = int(match[1])
+                year = int(match[2])
+
+            swiss = f"{day:02d}.{month:02d}.{year}"
+            text = text.replace(" ".join(match), swiss)
+
+    return text
+
 
 # 🔥 DEBUG
 print("🔥 MAIN.PY GELADEN")
@@ -71,22 +111,34 @@ async def extract_text_from_file(file: UploadFile) -> str:
     # ---------- MSG ----------
     if filename.endswith(".msg"):
         import extract_msg
+        ...
+        return ...
 
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".msg") as tmp:
-            tmp.write(await file.read())
-            tmp_path = tmp.name
+    # ---------- EML ----------
+    if filename.endswith(".eml"):
+        import email
+        from bs4 import BeautifulSoup
 
-        try:
-            msg = extract_msg.Message(tmp_path)
-            return f"""
-From: {msg.sender}
-To: {msg.to}
-Subject: {msg.subject}
+        raw_bytes = await file.read()
+        msg = email.message_from_bytes(raw_bytes)
 
-{msg.body}
-""".strip()
-        finally:
-            os.unlink(tmp_path)
+        body = ""
+
+        if msg.is_multipart():
+            for part in msg.walk():
+                content_type = part.get_content_type()
+                if content_type == "text/plain":
+                    body += part.get_payload(decode=True).decode(errors="ignore")
+                elif content_type == "text/html":
+                    html = part.get_payload(decode=True).decode(errors="ignore")
+                    soup = BeautifulSoup(html, "html.parser")
+                    body += soup.get_text()
+        else:
+            payload = msg.get_payload(decode=True)
+            if payload:
+                body += payload.decode(errors="ignore")
+
+        return body.strip()
 
     # ---------- PDF ----------
     if filename.endswith(".pdf"):
@@ -139,6 +191,8 @@ TEXT:
 
     try:
         result = call_ai(ROLE, prompt)
+        result = convert_to_swiss_date(result)
+        result = result.replace("ß", "ss")
         return {"result": result}
     except Exception as e:
         print("❌ summarize:", e)
@@ -186,6 +240,7 @@ TEXT:
 
     try:
         result = call_ai(ROLE, prompt)
+        result = convert_to_swiss_date(result)
         return {"result": result}
 
     except Exception as e:
@@ -203,7 +258,18 @@ def email_reply(input: EmailReplyInput):
     print("📥 /email-reply")
 
     prompt = f"""
-Du sollst eine professionelle E-Mail-Antwort verfassen.
+Du bist ein professioneller Büroassistent.
+
+AUFGABE:
+Erstelle eine vollständige, sendefertige E-Mail-Antwort.
+
+WICHTIGE FORMATIERUNGSREGELN:
+- Beginne mit einer passenden Anrede (z.B. "Sehr geehrte Frau Müller," oder "Hallo Herr Meier,")
+- Schreibe in klar strukturierten Absätzen (keine Textwand)
+- Jeder Gedankengang eigener Absatz
+- Verwende eine passende Grußformel (z.B. "Freundliche Grüsse" oder "Beste Grüsse")
+- KEINE Erklärung, KEIN Meta-Kommentar
+- Nur die fertige E-Mail ausgeben
 
 STIL:
 {input.style}
@@ -217,10 +283,13 @@ ORIGINAL-E-MAIL:
 
     try:
         result = call_ai(ROLE, prompt)
+        result = convert_to_swiss_date(result)
+        result = result.replace("ß", "ss")
         return {"result": result}
     except Exception as e:
         print("❌ email:", e)
         return {"result": "❌ Fehler bei der E-Mail-Erstellung."}
+
 
 # ================= EMAIL (FILE-FIRST) =================
 
@@ -267,6 +336,8 @@ WICHTIG:
 - Schreibe eine vollständige, sendefertige Antwort
 - Kein Meta-Kommentar, kein Hinweis auf Analyse
 - Natürlicher, menschlicher Ton
+- Verwende ausschliessliche Schweizer Datumsformate (z.B. 24.12.2024)
+- verwende ausschliesslich Schweizer Rechtsschreibung (z.B. "Grüsse" statt "Grüße")
 
 STIL:
 {style}
@@ -281,6 +352,8 @@ ORIGINAL-E-MAIL (aus Datei):
     # ---------- KI ----------
     try:
         result = call_ai(ROLE, prompt)
+        result = convert_to_swiss_date(result)
+        result = result.replace("ß", "ss")
         return {"result": result}
 
     except Exception as e:
@@ -315,6 +388,8 @@ TEXT:
 
     try:
         result = call_ai(ROLE, prompt)
+        result = convert_to_swiss_date(result)
+        result = result.replace("ß", "ss")
         return {"result": result}
     except Exception as e:
         print("❌ translate:", e)
@@ -354,6 +429,8 @@ TEXT:
 
     try:
         result = call_ai(ROLE, prompt)
+        result = convert_to_swiss_date(result)
+        result = result.replace("ß", "ss")
         return {"result": result}
     except Exception as e:
         print("❌ translate-file:", e)

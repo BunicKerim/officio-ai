@@ -621,7 +621,7 @@ body {
 .app-header .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding-left: 80px;   /* etwas weiter nach links */
+  padding-left: 80px;   /* etwas w iter nach links */
   padding-right: 40px;
 }
 
@@ -632,4 +632,28 @@ body {
 
 .app-subtitle {
   opacity: 0.85;
+}
+/* =========================================
+   FIX LANDING BACKGROUND – UNIFIED
+========================================= */
+
+.app-body {
+  background: linear-gradient(180deg, #020617 0%, #0f172a 100%);
+}
+
+/* Entfernt mögliche Section-Hintergründe */
+.feature-grid,
+.app-main {
+  background: transparent !important;
+}
+/* =========================================
+   FORCE LANDING BACKGROUND UNIFIED
+   APPEND FIX
+========================================= */
+
+#featureGrid,
+.feature-grid,
+.app-main,
+main {
+  background: transparent;
 }

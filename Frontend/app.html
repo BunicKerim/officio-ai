@@ -30,7 +30,10 @@
 
 <main class="app-main">
 
-  <!-- TOOL CARDS -->
+  <!-- ========================= -->
+  <!-- FEATURE GRID -->
+  <!-- ========================= -->
+
   <section id="featureGrid" class="feature-grid">
 
     <div class="feature-card" data-tool="tool-summary">
@@ -50,7 +53,6 @@
 
   </section>
 
-
   <!-- ========================= -->
   <!-- TOOL SUMMARY PAGE -->
   <!-- ========================= -->
@@ -64,7 +66,7 @@
       <div class="tool-header">
         <h2>Summarize text</h2>
         <p class="tool-description">
-          Paste text or upload a document and let Officio compress it intelligently.
+          Paste text and let Officio compress it intelligently.
         </p>
       </div>
 
@@ -89,62 +91,93 @@
 
       </div>
 
-      <div id="output" class="tool-output"></div>
+      <!-- COPY WRAPPER -->
+      <div class="copy-wrapper">
+        <button class="copy-btn" data-copy="output">Copy</button>
+        <div id="output" class="tool-output"></div>
+      </div>
 
     </div>
 
   </section>
 
 
-  <!-- ========================= -->
-  <!-- TOOL EMAIL PAGE -->
-  <!-- ========================= -->
+<!-- ========================= -->
+<!-- TOOL EMAIL PAGE -->
+<!-- ========================= -->
 
-  <section id="tool-email" class="tool-page">
+<section id="tool-email" class="tool-page">
 
-    <button class="back-to-start">← Back to start</button>
+  <button class="back-to-start">← Back to start</button>
 
-    <div class="tool-wrapper">
+  <div class="tool-wrapper">
 
-      <div class="tool-header">
-        <h2>Create email reply</h2>
-        <p class="tool-description">
-          Generate smart, contextual replies in seconds.
-        </p>
-      </div>
+    <div class="tool-header">
+      <h2>Create email reply</h2>
+      <p class="tool-description">
+        Generate smart, contextual replies in seconds.
+      </p>
+    </div>
 
-      <div class="tool-card">
+    <div class="tool-card">
 
-        <textarea 
-          id="emailOriginal"
-          class="tool-textarea large"
-          placeholder="Original email here..."
-        ></textarea>
+      <!-- TEXTAREA / DROP ZONE -->
+      <textarea 
+        id="emailOriginal"
+        class="tool-textarea large drop-zone"
+        placeholder="Füge deine E-Mail als Text ein oder ziehe sie als Datei hierhin rein"
+      ></textarea>
 
-        <input 
-          type="text"
-          id="emailKeywords"
-          class="tool-input"
-          placeholder="Keywords (optional)"
-        />
+      <!-- 🔥 WICHTIG – FILE INPUT (unsichtbar aber notwendig) -->
+      <input 
+        type="file"
+        id="emailFile"
+        accept=".msg,.eml,.pdf,.docx,.txt"
+        hidden
+      />
 
-        <select id="emailStyle" class="tool-select">
-          <option value="neutral">Neutral</option>
-          <option value="formal">Formal</option>
-          <option value="friendly">Friendly</option>
-        </select>
+      <!-- FILE PREVIEW -->
+      <div id="emailFilePreview" class="file-preview hidden"></div>
 
-        <button id="emailGenerateBtn" class="primary-btn">
-          Generate reply
-        </button>
+      <!-- KEYWORDS -->
+      <input 
+        type="text"
+        id="emailKeywords"
+        class="tool-input"
+        placeholder="Keywords (optional)"
+      />
 
-      </div>
+      <!-- STYLE SELECT -->
+      <select id="emailStyle" class="tool-select">
+        <option value="neutral">Neutral</option>
+        <option value="formal">Formal</option>
+        <option value="friendly">Friendly</option>
+      </select>
+
+      <!-- GENERATE BUTTON -->
+      <button id="emailGenerateBtn" class="primary-btn">
+        Generate reply
+      </button>
+
+    </div>
+
+    <!-- OUTPUT + COPY -->
+    <div class="copy-wrapper">
+
+      <button 
+        class="copy-btn hidden" 
+        data-copy="emailOutput"
+      >
+        Copy
+      </button>
 
       <div id="emailOutput" class="tool-output"></div>
 
     </div>
 
-  </section>
+  </div>
+
+</section>
 
 
   <!-- ========================= -->
@@ -192,11 +225,14 @@
 
       </div>
 
-      <textarea 
-        id="translateOutput"
-        class="tool-output"
-        readonly
-      ></textarea>
+      <!-- COPY WRAPPER -->
+      <div id="emailOutput" class="tool-output"></div>
+
+<button 
+  class="copy-btn hidden" 
+  data-copy="emailOutput">
+  Copy
+</button>
 
     </div>
 

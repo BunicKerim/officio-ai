@@ -346,3 +346,116 @@ select {
         transform: translateY(0);
     }
 }
+/* =========================================
+   EMAIL DROP ZONE
+========================================= */
+
+.drop-zone {
+  text-align: center;
+  font-size: 1.1rem;
+  padding: 2rem;
+  transition: all 0.25s ease;
+  border: 2px dashed rgba(255,255,255,0.15);
+  border-radius: 16px;
+}
+
+.drop-zone::placeholder {
+  text-align: center;
+  font-size: 1.1rem;
+  opacity: 0.6;
+}
+
+/* Hover / Drag State */
+.tool-card.drag-active {
+  border: 2px dashed #8b5cf6;
+  background: rgba(139,92,246,0.08);
+  box-shadow: 0 0 35px rgba(139,92,246,0.35);
+  transition: all 0.25s ease;
+}
+/* ===============================
+   EMAIL PLACEHOLDER CENTERED
+=============================== */
+
+#emailOriginal {
+  font-size: 1.1rem;
+  padding: 2rem;
+  min-height: 220px;
+  text-align: left; /* User-Text normal links */
+}
+
+/* Nur Placeholder zentrieren */
+#emailOriginal::placeholder {
+  text-align: center;
+  font-size: 1.3rem;
+  opacity: 0.6;
+}
+/* ===============================
+   FILE PREVIEW
+=============================== */
+
+.file-preview {
+  margin-top: 12px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: rgba(139,92,246,0.08);
+  border: 1px solid rgba(139,92,246,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.95rem;
+  animation: fadeIn 0.25s ease;
+}
+
+.file-preview.hidden {
+  display: none;
+}
+
+.file-preview button {
+  background: none;
+  border: none;
+  color: #ff6b6b;
+  font-weight: 600;
+  cursor: pointer;
+}
+.tool-output {
+  white-space: pre-wrap;
+}
+/* =========================================
+   GLOBAL COPY BUTTON – CLEAN VERSION
+========================================= */
+
+.copy-btn {
+  margin-top: 18px;
+  padding: 12px 28px;
+  border-radius: 999px;
+  border: none;
+
+  background: linear-gradient(135deg,#6b4ce6,#9c7af0);
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+
+  display: none; /* Standard: versteckt */
+
+  margin-left: auto;
+  margin-right: auto;
+
+  box-shadow: 0 10px 25px rgba(107,76,230,0.45);
+  transition: all 0.25s ease;
+}
+
+.copy-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px rgba(107,76,230,0.6);
+}
+
+.copy-btn:active {
+  transform: scale(0.96);
+}
+
+/* Sichtbar wenn Output existiert */
+.copy-btn.visible {
+  display: block;
+}

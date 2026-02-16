@@ -7,10 +7,14 @@ export function initHeaderNetwork(canvasId = "globalNetwork") {
 
   /* ================= RESIZE ================= */
 
-  function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
+function resize() {
+  const hero = document.querySelector(".hero-section");
+  const height = hero ? hero.offsetHeight : 600;
+
+  canvas.width = window.innerWidth;
+  canvas.height = height;
+}
+
 
   window.addEventListener("resize", resize);
   resize();

@@ -24,6 +24,53 @@ document.addEventListener("DOMContentLoaded", () => {
   console.log("🚀 Officio AI gestartet");
 
 
+/* ================= COPY BUTTONS GLOBAL ================= */
+
+document.querySelectorAll(".copy-btn").forEach(btn => {
+
+  const targetId = btn.dataset.copy;
+  const target = document.getElementById(targetId);
+
+  if (!target) return;
+
+  /* ---- Observer: prüft ob Output gefüllt ist ---- */
+  const observer = new MutationObserver(() => {
+    const text = target.value || target.textContent;
+    if (text && text.trim().length > 0) {
+      btn.classList.add("visible");
+    } else {
+      btn.classList.remove("visible");
+    }
+  });
+
+  observer.observe(target, {
+    childList: true,
+    subtree: true,
+    characterData: true
+  });
+
+  /* ---- Copy Funktion ---- */
+  btn.addEventListener("click", () => {
+
+    const text = target.value || target.textContent;
+    if (!text) return;
+
+    navigator.clipboard.writeText(text).then(() => {
+
+      const original = btn.textContent;
+      btn.textContent = "Copied ✓";
+
+      setTimeout(() => {
+        btn.textContent = original;
+      }, 1500);
+
+    });
+
+  });
+
+});
+
+
   /* ================= TOOL PAGE NAVIGATION ================= */
 
   const cards = document.querySelectorAll(".feature-card");
@@ -59,7 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const wrapper = selected.querySelector(".tool-wrapper");
         if (!wrapper) return;
 
-        const yOffset = -60; // Abstand vom oberen Rand
+        const yOffset = -60;
         const y = wrapper.getBoundingClientRect().top + window.pageYOffset + yOffset;
 
         window.scrollTo({
@@ -100,7 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const hash = window.location.hash.replace("#", "");
 
     if (!hash) {
-      // Zurück zur Startseite
+
       pages.forEach(p => p.classList.remove("active"));
       document.body.classList.remove("tool-open");
       featureGrid.classList.remove("fade-out");
@@ -111,7 +158,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
     } else {
-      // Direktes Öffnen per Hash
+
       const selected = document.getElementById(hash);
       if (!selected) return;
 
@@ -145,6 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (initialHash) {
     const selected = document.getElementById(initialHash);
     if (selected) {
+
       featureGrid.classList.add("fade-out");
       pages.forEach(p => p.classList.remove("active"));
 

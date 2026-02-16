@@ -17,22 +17,22 @@ def call_ai(system_role: str, user_text: str) -> str:
         response = client.responses.create(
             model="gpt-4.1-mini",
             input=[
-                {
-                    "role": "system",
-                    "content": system_role
-                },
-                {
-                    "role": "user",
-                    "content": user_text
-                }
+                {"role": "system", "content": system_role},
+                {"role": "user", "content": user_text}
             ],
-            temperature=0.2
+            temperature=0.2,
+            timeout=30  # 🔥 WICHTIG
         )
 
-        result = response.output_text.strip()
+        if not response.output or not response.output[0].content:
+            return "❌ Keine gültige KI-Antwort."
+
+        result = response.output[0].content[0].text.strip()
+
         print("✅ OpenAI response erhalten")
         return result
 
     except Exception as e:
         print("❌ OpenAI Fehler:", str(e))
-        return "❌ Fehler bei der KI-Verarbeitung."
+        return f"❌ Fehler bei der KI-Verarbeitung: {str(e)}"
+
